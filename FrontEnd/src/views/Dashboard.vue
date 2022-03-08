@@ -1,5 +1,6 @@
 <template>
-  <div>Hello</div>
+  <RecordList title="Record List"/>
 </template>
 <script setup lang="ts">
+import RecordList from '@/components/RecordList.vue'
 </script>
