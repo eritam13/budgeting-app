@@ -76,20 +76,30 @@
 
 <script setup lang="ts">
 import { Record } from '@/modules/Record';
-import useRecord from "@/stores/recordsStore";
-import { onMounted, ref, Ref } from 'vue';
+import {useRecordsStore} from "@/stores/recordsStore";
+import { ref, Ref } from 'vue';
 import { useRouter } from 'vue-router';
-const record: Ref<Record> = ref({ id: 0,activity:'',description:'',date: new Date(),currency: '', amount: 0});
-const { load, addRecord } = useRecord();
+const record: Ref<Record> = ref({ 
+  id: 0,
+  activity:'',
+  description:'',
+  date: new Date(),
+  currency: '', 
+  amount: 0});
+
+const { addRecord } = useRecordsStore();
 const router = useRouter();
-onMounted(() => load());
+
 const submitForm = () => {
   addRecord({ ...record.value });
+
   record.value.id=0;
   record.value.activity = '';
   record.value.description = '';
   record.value.date = new Date();
   record.value.currency = '';
   record.value.amount=0;
+
+  router.push({name: 'DashBoard'})
 };
 </script>

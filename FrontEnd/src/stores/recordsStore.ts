@@ -1,24 +1,41 @@
-import { State, Record } from '@/modules/record';
-import { reactive, toRefs } from 'vue';
+import useApi from '@/modules/api';
+import { Record } from '@/modules/record';
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
 
-const state = reactive<State>({
-  records: [],
-});
+export const useRecordsStore = defineStore('recordsStore', () => {
+  const apiGetRecords = useApi<Record[]>('records');
+  let records = ref<Record[]>([]);
 
-let initialized = false;
-export default function useRecord() {
-  const load = () => {
-    if (!initialized) {
-      state.records = [
-        { id: 1,activity:'bought bread',description:'on monday I went to maxima and bought bread',date: new Date(),currency: 'USD', amount: 5},
-      ];
+  const loadRecords = async () => {
+    await apiGetRecords.request();
 
-      initialized = true;
+    if (apiGetRecords.response.value) {
+      return apiGetRecords.response.value!;
+    }
+    return [];
+  };
+
+  const load = async () => {
+    records.value = await loadRecords();
+    console.log(records.value);
+  };
+
+  const addRecord = async (record: Record) => {
+    const apiAddRecord = useApi<Record>('records', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(record),
+    });
+    await apiAddRecord.request();
+    if (apiAddRecord.response.value) {
+      records.value.push(apiAddRecord.response.value!);
+
     }
   };
-    const addRecord = (record: Record) => {
-    state.records.push(record);
-  };
 
-  return { ...toRefs(state),load, addRecord };
-}
+  return { records, load, addRecord };
+});

@@ -9,11 +9,17 @@ namespace BackEnd.Model
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
+        public DataContext()
+        {
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<CurrencySelection>();
+        }
         public DbSet<Record>? RecordsList { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.HasPostgresEnum<CurrencySelection>();
         }
     }
 }

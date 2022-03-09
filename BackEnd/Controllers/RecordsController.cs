@@ -28,7 +28,7 @@ namespace BackEnd.Controllers
             var records = _context.RecordsList!.AsQueryable();
             if (currency is not null)
             {
-                records = records.Where(x => x.Currency == currency);
+                records = records.Where(x => x.Currency.ToString() == currency);
             }
 
             return Ok(records);

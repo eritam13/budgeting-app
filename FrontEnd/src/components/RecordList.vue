@@ -23,10 +23,17 @@
 </template>
 
 <script setup lang="ts">
-import useStudent from '@/stores/recordsStore';
+import {useRecordsStore} from '@/stores/recordsStore';
+import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
+
 defineProps<{ title: string }>();
-const { records, load } = useStudent();
-onMounted(() => load());
+
+const recordsStore = useRecordsStore();
+const { records } = storeToRefs(recordsStore);
+
+onMounted(() => {
+  recordsStore.load();
+});
 
 </script>
