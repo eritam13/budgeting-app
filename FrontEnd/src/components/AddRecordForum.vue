@@ -99,7 +99,6 @@ const submitForm = () => {
   record.value.date = new Date();
   record.value.currency = '';
   record.value.amount=0;
-
-  router.push({name: 'DashBoard'})
+  router.push({name: 'Dashboard'})
 };
 </script>

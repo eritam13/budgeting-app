@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "P4cBAS125wzZYFOpBd+FyxkaYNI866nBJYPJc+EwbvCTWgJdfChlIpFW4MKnzPvUcnxhoc0Q9WFtoDWV4BUJGw==",
+  "dgSpecHash": "WjXMpw0rcWzLpPvmj+9RMLSTdiLaBSfVq48iQ1DA3IFHM/Jl1XWk6wAsvpkgMLChP+vcPHyB37G8cqznONPsYg==",
   "success": true,
-  "projectFilePath": "c:\\Users\\Professional\\Desktop\\projektISA4\\2022-itb1704-isa4\\BackEnd\\BackEnd.csproj",
+  "projectFilePath": "C:\\Users\\Professional\\Desktop\\projektISA4\\2022-itb1704-isa4\\BackEnd\\BackEnd.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Professional\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.2\\microsoft.entityframeworkcore.6.0.2.nupkg.sha512",
     "C:\\Users\\Professional\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.2\\microsoft.entityframeworkcore.abstractions.6.0.2.nupkg.sha512",

@@ -22,13 +22,13 @@ namespace BackEnd.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetRecords([FromQuery] string? currency)
+        public IActionResult GetRecords([FromQuery] CurrencySelection? currency)
         {
 
             var records = _context.RecordsList!.AsQueryable();
-            if (currency is not null)
+            if (currency.HasValue)
             {
-                records = records.Where(x => x.Currency.ToString() == currency);
+                records = records.Where(x => x.Currency == currency.Value);
             }
 
             return Ok(records);

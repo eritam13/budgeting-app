@@ -20,6 +20,16 @@ namespace BackEnd.Model
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.HasPostgresEnum<CurrencySelection>();
+            modelBuilder.Entity<Record>().HasData(
+                new Record
+                {
+                    Id = 1,
+                    Activity = "Bought bread",
+                    Description = "when to maxima and bought bread",
+                    Date = new DateTime(),
+                    Currency = CurrencySelection.EUR,
+                    Amount = 10
+                });
         }
     }
 }

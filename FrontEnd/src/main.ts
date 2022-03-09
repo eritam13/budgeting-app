@@ -9,16 +9,24 @@ import 'primeicons/primeicons.css'; //icons
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import router from './router';
-import Datepicker from 'vue3-date-time-picker';
+import { setApiUrl } from './modules/api';
 
-let app = createApp(App);
+const getRuntimeConf = async () => {
+  const runtimeConf = await fetch('/config/runtime-config.json');
+  return await runtimeConf.json();
+};
 
-app.use(router);
-app.use(PrimeVue);
-app.use(createPinia());
+getRuntimeConf().then((json) => {
+  setApiUrl(json.API_URL);
 
-app.component('Datepicker', Datepicker);
-app.component('DataTable', DataTable);
-app.component('Column', Column);
+  let app = createApp(App);
 
-app.mount('#app');
+  app.use(PrimeVue);
+  app.use(router);
+  app.use(createPinia());
+
+  app.component('DataTable', DataTable);
+  app.component('Column', Column);
+
+  app.mount('#app');
+});
