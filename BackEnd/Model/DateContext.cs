@@ -25,8 +25,8 @@ namespace BackEnd.Model
                 {
                     Id = 1,
                     Activity = "Bought bread",
-                    Description = "when to maxima and bought bread",
-                    Date = new DateTime(),
+                    Description = "went to maxima and bought bread",
+                    Date = DateTime.UtcNow,
                     Currency = CurrencySelection.EUR,
                     Amount = 10
                 });

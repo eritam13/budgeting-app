@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import DashboardVue from '@/views/Dashboard.vue';
 import RecordsVue from '@/views/Records.vue';
-
+import ReportVue from '@/views/Report.vue';
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -13,6 +13,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Records',
     component: RecordsVue,
   },
+  {
+    path: '/report',
+    name: 'Report',
+    component: ReportVue,
+  }
 ];
 
 const router = createRouter({

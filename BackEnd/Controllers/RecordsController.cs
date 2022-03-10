@@ -62,7 +62,12 @@ namespace BackEnd.Controllers
                 return Conflict();
             }
         }
-
+        [HttpDelete]
+        public IActionResult Delete()
+        {
+            _context.ChangeTracker.Clear();
+            return NoContent();
+        }
         [HttpPut("{id}")]
         public IActionResult Update(int? id, [FromBody] BackEnd.Model.Record record)
         {

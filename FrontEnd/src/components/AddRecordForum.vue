@@ -5,6 +5,7 @@
     <div class="max-w-md w-full space-y-8">
       <div class="mt-8 space-y-6">
         <div class="rounded-md shadow-sm -space-y-px">
+          <h1 class="font-bold">{{ title }}</h1>
           <div>
             <label for="id">Id</label>
             <input
@@ -39,8 +40,8 @@
             <label for="date">Date</label>
             <dd></dd>
             <input type="date"  id="date"  name="date" v-model="record.date">
-          </div>
-          <div>
+            <dd></dd>
+            <dd></dd>
             <label for="currency">Currency</label>
             <dd></dd>
             <select name="currency" id="currency" v-model="record.currency">
@@ -79,6 +80,7 @@ import { Record } from '@/modules/Record';
 import {useRecordsStore} from "@/stores/recordsStore";
 import { ref, Ref } from 'vue';
 import { useRouter } from 'vue-router';
+defineProps<{ title: string }>();
 const record: Ref<Record> = ref({ 
   id: 0,
   activity:'',
@@ -91,12 +93,14 @@ const { addRecord } = useRecordsStore();
 const router = useRouter();
 
 const submitForm = () => {
+  const date:Date = new Date(record.value.date);
+  record.value.date= new Date(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate()));
+  console.log(record.value.date);
   addRecord({ ...record.value });
 
   record.value.id=0;
   record.value.activity = '';
   record.value.description = '';
-  record.value.date = new Date();
   record.value.currency = '';
   record.value.amount=0;
   router.push({name: 'Dashboard'})

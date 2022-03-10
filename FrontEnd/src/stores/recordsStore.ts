@@ -1,5 +1,6 @@
 import useApi from '@/modules/api';
 import { Record } from '@/modules/record';
+import { json } from 'node:stream/consumers';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
@@ -9,8 +10,12 @@ export const useRecordsStore = defineStore('recordsStore', () => {
 
   const loadRecords = async () => {
     await apiGetRecords.request();
-
     if (apiGetRecords.response.value) {
+      apiGetRecords.response.value.forEach(record =>{
+        const date:Date = new Date(record.date);
+        record.date= new Date(date.getFullYear(),date.getMonth(),date.getDate());
+        console.log(record);
+      });
       return apiGetRecords.response.value!;
     }
     return [];
@@ -18,7 +23,6 @@ export const useRecordsStore = defineStore('recordsStore', () => {
 
   const load = async () => {
     records.value = await loadRecords();
-    console.log(records.value);
   };
 
   const addRecord = async (record: Record) => {
@@ -36,6 +40,30 @@ export const useRecordsStore = defineStore('recordsStore', () => {
 
     }
   };
+  //const deleteRecords = async () =>{
+  //  const apiDeleteRecords = useApi<Record>('records',{
+  //    method: 'DELETE',
+  //  })
+  //  const};
+  const combineRecords = async():Promise<number>=>{
+     records.value= await loadRecords();
+     let total:number=0;
+     if(records.value)
+     {
+              records.value.forEach(record =>{
+              if(record.currency.toString() === 'EUR')
+              {
+                total+=record.amount*1.1;
+              }
+              else 
+              {
+                total+=record.amount
+              };    
+    })
+    return total;
+    }
+    return total;
+  };
 
-  return { records, load, addRecord };
+  return { records, load, addRecord, combineRecords }; //add deleteRecords
 });

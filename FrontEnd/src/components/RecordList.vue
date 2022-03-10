@@ -1,19 +1,28 @@
 <template>
    <div class="bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
     <div class="text-center bg-gray-50">
+
       <h1 class="font-bold">{{ title }}</h1>
       <ul>
+        <button
+            class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            @click="clearRecords"
+          >
+            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+            </span>
+            Clear Records
+          </button>
         <div v-if="records.length === 0">
             Empty
         </div>
         <div v-else>
         <DataTable :value="records">
-        <Column field="id" header="ID" />
-        <Column field="activity" header="Activity" />
-        <Column field="description" header="Description" />
-        <Column field="date" header="Date" />
-        <Column field="currency" header="Currency"/>
-        <Column field="amount" header="Amount"/>
+          <Column field="id" header="ID" />
+          <Column field="activity" header="Activity" />
+          <Column field="description" header="Description" />
+          <Column field="date" header="Date" />
+          <Column field="currency" header="Currency"/>
+          <Column field="amount" header="Amount"/>
         </DataTable>
 
         </div>
@@ -31,7 +40,10 @@ defineProps<{ title: string }>();
 
 const recordsStore = useRecordsStore();
 const { records } = storeToRefs(recordsStore);
-
+const deleteRecords = useRecordsStore();
+const clearRecords = ()=>{
+  //deleteRecords();
+};
 onMounted(() => {
   recordsStore.load();
 });
