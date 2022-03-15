@@ -1,5 +1,5 @@
 import useApi from '@/modules/api';
-import { Record } from '@/modules/record';
+import { Record } from '@/modules/Record';
 import { json } from 'node:stream/consumers';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
