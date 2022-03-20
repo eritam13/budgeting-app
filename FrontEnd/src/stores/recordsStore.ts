@@ -8,7 +8,7 @@ export const useRecordsStore = defineStore('recordsStore', () => {
   let apiGetRecords = useApi<Record[]>('records');
   const apiGetReport = useApi<Record[]>('records/report');
   let records = ref<Record[]>([]);
-  let report =ref<Report[]>([]);
+  let report = ref<Report[]>([]);
   const loadRecords = async () => {
     await apiGetRecords.request();
     if (apiGetRecords.response.value) {
@@ -23,8 +23,11 @@ export const useRecordsStore = defineStore('recordsStore', () => {
 
   const load = async () => {
     records.value = await loadRecords();
+    records.value.forEach(function(value:any) {
+      console.log(value);
+    });
   };
-  const loadReport = async () => {
+  const loadR = async () => {
     await apiGetReport.request();
     if (apiGetReport.response.value)
     {
@@ -32,8 +35,11 @@ export const useRecordsStore = defineStore('recordsStore', () => {
     }
     return [];
   };
-  const loadReports = async () => {
-    report.value = await loadReport();
+  const loadReport = async () => {
+    report.value = await loadR();
+    report.value.forEach(function(value:any){
+      console.log(value);
+    });
   }
   const addRecord = async (record: Record) => {
     const apiAddRecord = useApi<Record>('records', {
@@ -77,5 +83,5 @@ export const useRecordsStore = defineStore('recordsStore', () => {
     return Math.round(total*100)/100;
   };
 
-  return { records, load, addRecord, combineRecords, loadReports, deleteRecords }; //add deleteRecords
+  return { records,report, load, addRecord, combineRecords, loadReport, deleteRecords }; 
 });

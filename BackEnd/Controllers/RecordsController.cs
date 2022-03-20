@@ -65,7 +65,14 @@ namespace BackEnd.Controllers
             {
                 if(report.ContainsKey(r.Category.ToString()))
                 {
+                    if(r.Currency.ToString() == "USD")
+                    {
                     report[r.Category.ToString()] +=r.Amount;
+                    }
+                    if(r.Currency.ToString()=="EUR")
+                    {
+                        report[r.Category.ToString()]+=r.Amount*1.1M;
+                    }
                 }
                 Console.WriteLine(report[r.Category.ToString()]);
             }
