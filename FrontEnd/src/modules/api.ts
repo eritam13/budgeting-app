@@ -27,3 +27,11 @@ export default function useApi<T>(
 
   return { response, request };
 }
+
+export function useApiRawRequest(url: RequestInfo, options?: RequestInit) {
+  const request: () => Promise<Response> = async () => {
+    return await fetch(apiUrl + url, options);
+  };
+  return request;
+}
+

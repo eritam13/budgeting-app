@@ -17,12 +17,12 @@
         </div>
         <div v-else>
         <DataTable :value="records">
-          <Column field="id" header="ID" />
           <Column field="activity" header="Activity" />
           <Column field="description" header="Description" />
           <Column field="date" header="Date" />
           <Column field="currency" header="Currency"/>
           <Column field="amount" header="Amount"/>
+          <Column field="category" header="Category"/>
         </DataTable>
 
         </div>
@@ -40,9 +40,9 @@ defineProps<{ title: string }>();
 
 const recordsStore = useRecordsStore();
 const { records } = storeToRefs(recordsStore);
-const deleteRecords = useRecordsStore();
+const {deleteRecords} = useRecordsStore();
 const clearRecords = ()=>{
-  //deleteRecords();
+  deleteRecords();
 };
 onMounted(() => {
   recordsStore.load();

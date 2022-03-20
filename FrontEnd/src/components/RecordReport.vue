@@ -24,7 +24,6 @@
 <script setup lang="ts">
 import {useRecordsStore} from '@/stores/recordsStore'
 import { ref, Ref } from 'vue';
-
 const recordsStore = useRecordsStore();
 let totalSpent:Ref<number> = ref(0);
 const getReport = async (button:any) => {

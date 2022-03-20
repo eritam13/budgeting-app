@@ -1,20 +1,20 @@
-import useApi from '@/modules/api';
+import useApi, {useApiRawRequest} from '@/modules/api';
 import { Record } from '@/modules/record';
 import { json } from 'node:stream/consumers';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-
+import { Report } from '@/modules/report'
 export const useRecordsStore = defineStore('recordsStore', () => {
-  const apiGetRecords = useApi<Record[]>('records');
+  let apiGetRecords = useApi<Record[]>('records');
+  const apiGetReport = useApi<Record[]>('records/report');
   let records = ref<Record[]>([]);
-
+  let report =ref<Report[]>([]);
   const loadRecords = async () => {
     await apiGetRecords.request();
     if (apiGetRecords.response.value) {
       apiGetRecords.response.value.forEach(record =>{
         const date:Date = new Date(record.date);
         record.date= new Date(date.getFullYear(),date.getMonth(),date.getDate());
-        console.log(record);
       });
       return apiGetRecords.response.value!;
     }
@@ -24,7 +24,17 @@ export const useRecordsStore = defineStore('recordsStore', () => {
   const load = async () => {
     records.value = await loadRecords();
   };
-
+  const loadReport = async () => {
+    await apiGetReport.request();
+    if (apiGetReport.response.value)
+    {
+      return apiGetReport.response.value;
+    }
+    return [];
+  };
+  const loadReports = async () => {
+    report.value = await loadReport();
+  }
   const addRecord = async (record: Record) => {
     const apiAddRecord = useApi<Record>('records', {
       method: 'POST',
@@ -37,14 +47,16 @@ export const useRecordsStore = defineStore('recordsStore', () => {
     await apiAddRecord.request();
     if (apiAddRecord.response.value) {
       records.value.push(apiAddRecord.response.value!);
-
     }
   };
-  //const deleteRecords = async () =>{
-  //  const apiDeleteRecords = useApi<Record>('records',{
-  //    method: 'DELETE',
-  //  })
-  //  const};
+  const deleteRecords = async () =>{
+    const apiDeleteRecords = useApiRawRequest('records',{
+      method: 'DELETE',
+    });
+    const res = await apiDeleteRecords();
+    apiGetRecords = useApi<Record[]>('records');
+    records.value = await loadRecords();
+  };
   const combineRecords = async():Promise<number>=>{
      records.value= await loadRecords();
      let total:number=0;
@@ -60,10 +72,10 @@ export const useRecordsStore = defineStore('recordsStore', () => {
                 total+=record.amount
               };    
     })
-    return total;
+    return Math.round(total*100)/100;
     }
-    return total;
+    return Math.round(total*100)/100;
   };
 
-  return { records, load, addRecord, combineRecords }; //add deleteRecords
+  return { records, load, addRecord, combineRecords, loadReports, deleteRecords }; //add deleteRecords
 });

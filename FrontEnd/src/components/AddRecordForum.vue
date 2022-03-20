@@ -7,17 +7,8 @@
         <div class="rounded-md shadow-sm -space-y-px">
           <h1 class="font-bold">{{ title }}</h1>
           <div>
-            <label for="id">Id</label>
-            <input
-              id="id"
-              name="id"
-              v-model="record.id"
-              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              placeholder="Id"
-            />
-          </div>  
-          <div>
             <label for="activity">Activity</label>
+            <span class="popup" v-if="!activityCheck">      (This field is required)</span>
             <input
               id="activity"
               name="activity"
@@ -28,7 +19,7 @@
           </div>
           <div>
             <label for="description">Description</label>
-            <input
+            <textarea
               id="description"
               name="description"
               v-model="record.description"
@@ -36,30 +27,50 @@
               placeholder="Description"
             />
           </div>
-           <div>
+          <div>
             <label for="date">Date</label>
             <dd></dd>
-            <input type="date"  id="date"  name="date" v-model="record.date">
+            <input type="date" id="date" name="date" v-model="record.date" />
             <dd></dd>
             <dd></dd>
             <label for="currency">Currency</label>
+            <span class="popup" v-if="!currencyCheck">      (Please select a currency)</span>
             <dd></dd>
             <select name="currency" id="currency" v-model="record.currency">
-              <option value="USD">USD</option>
-              <option value="EUR">EUR</option>
+              <option value="USD" label="&#128181 USD">USD</option>
+              <option value="EUR" label="&#128182 EUR">EUR</option>
+              <option value="" selected disabled hidden>Choose Currency</option>
+            </select>
+            <dd></dd>
+            <dd></dd>
+            <label for="category">Category</label>
+            <span class="popup" v-if="!categoryCheck">      (Please select a category)</span>
+            <dd></dd>
+            <select category="category" id="category" v-model="record.category">
+              <option value="FoodDrinks" label="&#127790 Food & Drinks"></option>
+              <option value="Shopping" label="&#128722 Shooping"></option>
+              <option value="Housing" label="&#128146 Housing"></option>
+              <option value="Transportation" label="&#128652 Transportation"></option>
+              <option value="Income" label="&#128176 Income"></option>
+              <option value="Investments" label="&#128200 Investments"></option>
+              <option value="Entertainment" label="&#129336 Entertainment"></option>
+              <option value="Other" label="Other"></option>
+              <option value="" selected disabled hidden>Choose Category</option>
             </select>
           </div>
         </div>
         <div>
-            <label for="amount">Amount</label>
-            <input
-              id="amount"
-              name="amount"
-              v-model="record.amount"
-              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              placeholder="Amount"
-            />
-          </div>
+          <label for="amount">Amount</label>
+          <span class="popup" v-if="!amountCheck">      (This field is required)</span>
+          <input
+            id="amount"
+            name="amount"
+            type="number"
+            v-model="record.amount"
+            class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+            placeholder="Amount"
+          />
+        </div>
         <div>
           <button
             class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -77,32 +88,78 @@
 
 <script setup lang="ts">
 import { Record } from '@/modules/Record';
-import {useRecordsStore} from "@/stores/recordsStore";
+import { useRecordsStore } from '@/stores/recordsStore';
 import { ref, Ref } from 'vue';
 import { useRouter } from 'vue-router';
 defineProps<{ title: string }>();
-const record: Ref<Record> = ref({ 
-  id: 0,
-  activity:'',
-  description:'',
+const record: Ref<Record> = ref({
+  activity: '',
+  description: '',
   date: new Date(),
-  currency: '', 
-  amount: 0});
-
+  currency: '',
+  amount: 0,
+  category: '',
+});
 const { addRecord } = useRecordsStore();
 const router = useRouter();
 
+let activityCheck:Ref<boolean>=ref(true);
+let currencyCheck:Ref<boolean>=ref(true);
+let categoryCheck:Ref<boolean>=ref(true);
+let amountCheck:Ref<boolean>=ref(true);
 const submitForm = () => {
-  const date:Date = new Date(record.value.date);
-  record.value.date= new Date(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate()));
-  console.log(record.value.date);
-  addRecord({ ...record.value });
 
-  record.value.id=0;
-  record.value.activity = '';
-  record.value.description = '';
-  record.value.currency = '';
-  record.value.amount=0;
-  router.push({name: 'Dashboard'})
+  if (record.value.amount == 0) {
+    amountCheck.value = false;
+  }
+  if (record.value.amount != 0) {
+    amountCheck.value = true;
+  }
+
+  if (record.value.category =="")
+  {
+    categoryCheck.value = false;
+  }
+  if(record.value.category !="")
+  {
+    categoryCheck.value=true;
+  }
+
+   if (record.value.currency =="")
+  {
+    currencyCheck.value =false;
+  }
+  if(record.value.currency !="")
+  {
+    currencyCheck.value=true;
+  }
+
+   if (record.value.activity =="")
+  {
+    activityCheck.value = false;
+  }
+  if(record.value.activity !="")
+  {
+    activityCheck.value=true;
+  }
+  if(amountCheck.value==true && currencyCheck.value==true && categoryCheck.value==true && activityCheck.value==true) {
+    const date: Date = new Date(record.value.date);
+    record.value.date = new Date(
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+    );
+    addRecord({ ...record.value });
+    record.value.activity = '';
+    record.value.description = '';
+    record.value.currency = '';
+    record.value.amount = 0;
+    record.value.category = '';
+    router.push({ name: 'Dashboard' });
+  }
 };
 </script>
+<style scoped >
+  .popup{
+    color: crimson;
+    font-size: 12px !important;
+  }
+</style>
