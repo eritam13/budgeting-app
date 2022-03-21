@@ -16,7 +16,7 @@
         </div>
       <h2>Money Spent: {{totalSpent}}$</h2>
       <div v-if="reportCheck==false" >
-        <li v-for="r in report" :key="report.category">
+        <li v-for="r in report" :key="r.category">
           <span v-if="r.category=='FoodDrinks'">
             Food & Drinks - {{r.amount}}$ 
           </span>
@@ -24,7 +24,7 @@
             {{r.category}} - {{r.amount}}$
           </span>
           <dd></dd>
-          <span v-for="rp in records" :key="records.category">
+          <span v-for="rp in records" :key="r.category">
               <div v-if="rp.category==r.category">
                 <div>
                          Activity: {{rp.activity}} | Description: {{rp.description}} | Amount: {{rp.amount}} | Currency: {{rp.currency}} | Date: {{rp.date}} 

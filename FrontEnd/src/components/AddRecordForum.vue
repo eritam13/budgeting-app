@@ -87,7 +87,7 @@
 </template>
 
 <script setup lang="ts">
-import { Record } from '@/modules/Record';
+import { Record } from '@/modules/record';
 import { useRecordsStore } from '@/stores/recordsStore';
 import { ref, Ref } from 'vue';
 import { useRouter } from 'vue-router';
