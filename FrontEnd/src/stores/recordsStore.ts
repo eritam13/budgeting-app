@@ -71,11 +71,23 @@ export const useRecordsStore = defineStore('recordsStore', () => {
               records.value.forEach(record =>{
               if(record.currency.toString() === 'EUR')
               {
-                total+=record.amount*1.1;
+                if(record.category.toString()=="Income")
+                {
+                  total+=record.amount*1.1;
+                }
+                else{
+                  total-=record.amount*1.1;
+                }
               }
               else 
               {
-                total+=record.amount
+                if(record.category.toString()=="Income")
+                {
+                  total+=record.amount;
+                }
+                else{
+                  total-=record.amount;
+                }
               };    
     })
     return Math.round(total*100)/100;

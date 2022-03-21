@@ -27,7 +27,7 @@
           <span v-for="rp in records" :key="records.category">
               <div v-if="rp.category==r.category">
                 <div>
-                          {{rp.activity}} {{rp.description}}{{rp.amount}} {{rp.currency}}    
+                         Activity: {{rp.activity}} | Description: {{rp.description}} | Amount: {{rp.amount}} | Currency: {{rp.currency}} | Date: {{rp.date}} 
                 </div>        
               </div>
           </span>
@@ -56,7 +56,7 @@ const getReport = async () => {
     }
     if(reportCheck.value==true)
     {
-    totalSpent.value += await combine();
+      totalSpent.value += await combine();
     }
     reportCheck.value = false;
 };
