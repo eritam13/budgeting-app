@@ -3,7 +3,8 @@ variables:
   DOCKER_TLS_CERTDIR: "/certs"
   # Minu konteineri registri aadress AWS-s (Amazon Elastic Container Registry)
   DOCKER_REGISTRY: 796708230716.dkr.ecr.eu-north-1.amazonaws.com/budgetingapp
-
+#commit changes
+#test
 stages:
   - build
 
