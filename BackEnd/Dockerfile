@@ -20,6 +20,8 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0.3-alpine3.15
 WORKDIR /app
 COPY --from=builder /publish .
 
+EXPOSE 80
+
 RUN addgroup -S runner && adduser -S runner -G runner
 USER runner
 ENTRYPOINT ["dotnet", "WorkoutApplication.dll"]
