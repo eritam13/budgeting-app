@@ -17,8 +17,7 @@ namespace BackEnd.Model
         public string? Activity { get; init;}
         [Column("description")]
         public string? Description { get; init; }
-        [Column("date"),Required]
-        public DateTime? Date { get; init; }
+        [Column("date"),Required]        public DateTime? Date { get; init; }
 
         [Column("currency"),Required]
         public CurrencySelection Currency { get; init; }
