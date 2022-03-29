@@ -108,40 +108,10 @@ let currencyCheck:Ref<boolean>=ref(true);
 let categoryCheck:Ref<boolean>=ref(true);
 let amountCheck:Ref<boolean>=ref(true);
 const submitForm = () => {
-
-  if (record.value.amount == 0) {
-    amountCheck.value = false;
-  }
-  if (record.value.amount != 0) {
-    amountCheck.value = true;
-  }
-
-  if (record.value.category =="")
-  {
-    categoryCheck.value = false;
-  }
-  if(record.value.category !="")
-  {
-    categoryCheck.value=true;
-  }
-
-   if (record.value.currency =="")
-  {
-    currencyCheck.value =false;
-  }
-  if(record.value.currency !="")
-  {
-    currencyCheck.value=true;
-  }
-
-   if (record.value.activity =="")
-  {
-    activityCheck.value = false;
-  }
-  if(record.value.activity !="")
-  {
-    activityCheck.value=true;
-  }
+  amountCheck.value =record.value.amount!=0;
+  categoryCheck.value=record.value.category!=""; 
+  currencyCheck.value=record.value.currency!="";
+  activityCheck.value=record.value.activity!="";
   if(amountCheck.value==true && currencyCheck.value==true && categoryCheck.value==true && activityCheck.value==true) {
     const date: Date = new Date(record.value.date);
     record.value.date = new Date(

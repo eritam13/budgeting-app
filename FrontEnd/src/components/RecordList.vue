@@ -37,7 +37,6 @@ import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
 
 defineProps<{ title: string }>();
-
 const recordsStore = useRecordsStore();
 const { records } = storeToRefs(recordsStore);
 const {deleteRecords} = useRecordsStore();

@@ -1,0 +1,31 @@
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: "/certs"
+  # Minu konteineri registri aadress AWS-s (Amazon Elastic Container Registry)
+  DOCKER_REGISTRY: 796708230716.dkr.ecr.eu-north-1.amazonaws.com/budgetingapp
+#commit changes
+#test
+stages:
+  - build
+
+build:
+  image:
+    name: docker:20.10.13-alpine3.15
+  services:
+    - docker:20.10.13-dind-alpine3.15
+  only:
+    - main
+  before_script:
+    - apk add --no-cache curl jq python3 py3-pip
+    - pip install awscli
+    - aws ecr get-login-password | docker login --username AWS --password-stdin ${DOCKER_REGISTRY}
+  script:
+    - docker build -t ${DOCKER_REGISTRY}/back:${CI_COMMIT_SHA} ./BackEnd/
+    - docker build -t ${DOCKER_REGISTRY}/front:${CI_COMMIT_SHA} ./FrontEnd/
+    - docker push ${DOCKER_REGISTRY}/back:${CI_COMMIT_SHA}
+    - docker push ${DOCKER_REGISTRY}/front:${CI_COMMIT_SHA}
+  after_script:
+    - docker logout ${DOCKER_REGISTRY}
+  stage: build
+  artifacts:
+    paths:
