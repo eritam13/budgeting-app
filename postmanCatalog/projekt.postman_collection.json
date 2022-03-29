@@ -1,0 +1,239 @@
+{
+	"info": {
+		"_postman_id": "006c4835-d5d8-427e-9d3d-5ddc219385be",
+		"name": "projekt",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1.0 Reset",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/Records",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"Records"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1.1a GetRecords",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"var data=pm.response.json();\r",
+							"pm.globals.set(\"1.1a\", data.length);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/Records",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"Records"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1.1b PostRecord",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"Activity\":\"Bought bread\",\"Description\":\"went to maxima and bought bread\", \"Date\":\"2022-03-09T00:00:00Z\", \"Currency\":\"EUR\",\"Amount\":10,\"Category\":\"FoodDrinks\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/Records",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"Records"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1.1c GetRecords",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Array Length\", function(){\r",
+							"    var data= pm.response.json();\r",
+							"    var c = pm.globals.get(\"1.1a\");\r",
+							"    pm.expect(c+1).to.eql(data.length);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/Records",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"Records"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1.1d DeleteRecords",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/Records",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"Records"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1.1e GetRecords",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"All records were deleted\", function(){\r",
+							"    var d = pm.response.json;\r",
+							"    pm.expect(d[0]).to.eql(undefined);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/Records",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"Records"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
