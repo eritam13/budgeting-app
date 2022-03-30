@@ -103,6 +103,7 @@ const record: Ref<Record> = ref({
 const { addRecord } = useRecordsStore();
 const router = useRouter();
 
+
 let activityCheck:Ref<boolean>=ref(true);
 let currencyCheck:Ref<boolean>=ref(true);
 let categoryCheck:Ref<boolean>=ref(true);

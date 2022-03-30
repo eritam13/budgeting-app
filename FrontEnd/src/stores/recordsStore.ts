@@ -9,6 +9,8 @@ export const useRecordsStore = defineStore('recordsStore', () => {
   const apiGetReport = useApi<Record[]>('records/report');
   let records = ref<Record[]>([]);
   let report = ref<Report[]>([]);
+  
+  
   const loadRecords = async () => {
     await apiGetRecords.request();
     if (apiGetRecords.response.value) {

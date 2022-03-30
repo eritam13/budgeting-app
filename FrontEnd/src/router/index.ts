@@ -3,6 +3,7 @@ import DashboardVue from '@/views/Dashboard.vue';
 import RecordsVue from '@/views/Records.vue';
 import ReportVue from '@/views/Report.vue';
 import PersonalInfoVue from '@/views/PersonalInfo.vue';
+import EditPersonalInfoVue from '@/views/EditPersonalInfo.vue';
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -24,7 +25,9 @@ const routes: Array<RouteRecordRaw> = [
     name: 'PersonalInfo',
     component: PersonalInfoVue,
   },
+
 ];
+
 
 const router = createRouter({
   history: createWebHistory(),

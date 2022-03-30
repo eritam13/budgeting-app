@@ -25,13 +25,21 @@ namespace BackEnd.Controllers
             var personalInfo = _context.PersonalInfo!.AsQueryable();
             return Ok(personalInfo);
         } 
-        [HttpPut("{id}")]
-        public IActionResult Update(int? id, PersonalInfo PersonalInfo)
+        [HttpGet("{id}")]
+        public IActionResult GetDetails(int? id)
         {
-            if (id != PersonalInfo.Id || !_context.PersonalInfo!.Any(e => e.Id == id))
+            var exercise = _context.PersonalInfo?.FirstOrDefault(e => e.Id == id);
+            if (exercise == null)
             {
                 return NotFound();
             }
+
+            return Ok(exercise);
+        }
+        [HttpPut("{id}")]
+        public IActionResult Update(int? id, PersonalInfo PersonalInfo)
+        {
+           
 
             _context.Update(PersonalInfo);
             _context.SaveChanges();
