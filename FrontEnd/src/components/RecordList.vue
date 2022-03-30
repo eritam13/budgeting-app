@@ -54,13 +54,16 @@
 <script setup lang="ts">
 import {useRecordsStore} from '@/stores/recordsStore';
 import { storeToRefs } from 'pinia';
-import { onMounted } from 'vue';
+import { onMounted, onUpdated } from 'vue';
 import { Record } from '@/modules/record'
+import { useRouter } from 'vue-router';
+import EditRecordVue from '@/components/EditRecord.vue';
 
 defineProps<{ title: string }>();
 const recordsStore = useRecordsStore();
 const { records } = storeToRefs(recordsStore);
-const {deleteRecords} = useRecordsStore();
+const {deleteRecords, updateUrl } = useRecordsStore();
+const router = useRouter();
 const clearRecords = ()=>{
   deleteRecords();
 };
@@ -69,7 +72,17 @@ const clearRecords = ()=>{
 onMounted(() => {
   recordsStore.load();
 });
+
+
+const edit= (record: Record) => {
+  router.addRoute({path:'/records/'+record.id,name:'EditPersonalInfo',component:EditRecordVue});
+  updateUrl(record.id);
+  router.push({path:'/records/'+record.id,name:'EditPersonalInfo'});
+};
+
+
 const remove = (record: Record) => {
-  recordsStore.deleteExercise(record);
+  recordsStore.deleteRecord(record);
+ 
 };
 </script>
