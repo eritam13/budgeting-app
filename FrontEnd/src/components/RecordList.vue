@@ -23,6 +23,26 @@
           <Column field="currency" header="Currency"/>
           <Column field="amount" header="Amount"/>
           <Column field="category" header="Category"/>
+          <Column>
+          <template #body="{ data }">
+            <button
+              class="border bg-yellow-400 text-red-900 py-0 px-2 border-red-900 font-bold"
+              @click="edit(data)"
+            >
+              EDIT
+            </button>
+          </template>
+        </Column>
+        <Column>
+          <template #body="{ data }">
+            <button
+              class="border bg-red-400 text-red-900 py-0 px-2 border-red-900 font-bold"
+              @click="remove(data)"
+            >
+              X
+            </button>
+          </template>
+        </Column>
         </DataTable>
 
         </div>
@@ -35,6 +55,7 @@
 import {useRecordsStore} from '@/stores/recordsStore';
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
+import { Record } from '@/modules/record'
 
 defineProps<{ title: string }>();
 const recordsStore = useRecordsStore();
@@ -43,8 +64,12 @@ const {deleteRecords} = useRecordsStore();
 const clearRecords = ()=>{
   deleteRecords();
 };
+
+
 onMounted(() => {
   recordsStore.load();
 });
-
+const remove = (record: Record) => {
+  recordsStore.deleteExercise(record);
+};
 </script>
