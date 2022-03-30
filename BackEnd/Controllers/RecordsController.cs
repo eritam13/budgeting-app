@@ -74,7 +74,6 @@ namespace BackEnd.Controllers
                         report[r.Category.ToString()]+=r.Amount*1.1M;
                     }
                 }
-                Console.WriteLine(report[r.Category.ToString()]);
             }
             foreach(KeyValuePair<string, decimal> r in report)
             {

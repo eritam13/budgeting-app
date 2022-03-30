@@ -14,7 +14,7 @@
             Get Report
           </button>
         </div>
-      <h2>Money Spent: {{totalSpent}}$</h2>
+      <h2>Total: {{totalSpent}}$</h2>
       <div v-if="reportCheck==false" >
         <li v-for="r in report" :key="r.category">
           <span v-if="r.category=='FoodDrinks'">
@@ -27,12 +27,14 @@
           <span v-for="rp in records" :key="r.category">
               <div v-if="rp.category==r.category">
                 <div>
-                         Activity: {{rp.activity}} | Description: {{rp.description}} | Amount: {{rp.amount}} | Currency: {{rp.currency}} | Date: {{rp.date}} 
+                         Activity: {{rp.activity}} | Description: {{rp.description}} | Amount: {{rp.amount}} | Date: {{rp.date}} 
                 </div>        
               </div>
           </span>
           <dd></dd>
         </li>
+
+        <pie-chart :data="finalArr"></pie-chart>
       </div>
       </div>
     </div>
@@ -41,12 +43,16 @@
 
 <script setup lang="ts">
 import {useRecordsStore} from '@/stores/recordsStore'
+import {useReportStore} from '@/stores/reportStore'
 import { storeToRefs } from 'pinia';
 import { ref, Ref } from 'vue';
 import { onMounted } from 'vue';
+
 const recordsStore = useRecordsStore();
+const reportStore = useReportStore();
 const {records} = storeToRefs(recordsStore);
-const {report} = storeToRefs(recordsStore);
+const {report} = storeToRefs(reportStore);
+let finalArr:Ref<(string| number)[][]>=ref([]);
 let reportCheck:Ref<boolean> = ref(true);
 let totalSpent:Ref<number> = ref(0);
 const getReport = async () => {
@@ -58,10 +64,26 @@ const getReport = async () => {
     {
       totalSpent.value += await combine();
     }
+    getPieChartData();
     reportCheck.value = false;
 };
+
+const getPieChartData = async () => {
+  let finalArray : (string | number)[][]=[];
+   for (let i = 0; i < report.value.length; i++) {
+    let c :string = report.value[i].category;
+    let a :number = report.value[i].amount;
+    if(a!=0 && c!="Income")
+    {
+      let smallArray: (string|number)[]=[c,a];
+      finalArray.push(smallArray);
+    }
+   }
+   console.log(finalArray);
+   finalArr.value=finalArray;
+};
 onMounted(() => {
-  recordsStore.loadReport();
+  reportStore.loadReport();
   recordsStore.load();
 });
 </script>

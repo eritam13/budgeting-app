@@ -17,7 +17,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/report',
     name: 'Report',
     component: ReportVue,
-  }
+  },
 ];
 
 const router = createRouter({

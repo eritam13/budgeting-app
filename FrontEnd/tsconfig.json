@@ -13,7 +13,9 @@
     "plugins": [{ "name": "@vuedx/typescript-plugin-vue" }],
     "baseUrl": ".",
     "paths": { "@/*": ["src/*"] },
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": false,
+    "allowJs": true
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }]
