@@ -2,10 +2,15 @@ import useApi, {useApiRawRequest} from '@/modules/api';
 import { Record } from '@/modules/record';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { Report } from '@/modules/report'
 export const useRecordsStore = defineStore('recordsStore', () => {
   let apiGetRecords = useApi<Record[]>('records');
   let records = ref<Record[]>([]);
+  let allRecords:Record[]=[];
+  let url=ref<String>();
+  url.value='1';
+  const updateUrl=async (newurl:String) =>{
+    url.value=newurl;
+  };
   const loadRecords = async () => {
     await apiGetRecords.request();
     if (apiGetRecords.response.value) {
@@ -23,6 +28,7 @@ export const useRecordsStore = defineStore('recordsStore', () => {
     records.value.forEach(function(value:any) {
     });
   };
+
   const addRecord = async (record: Record) => {
     const apiAddRecord = useApi<Record>('records', {
       method: 'POST',
@@ -37,6 +43,49 @@ export const useRecordsStore = defineStore('recordsStore', () => {
       records.value.push(apiAddRecord.response.value!);
     }
   };
+
+  const updateRecord = async (record1: Record) => {console.log(url.value)
+    const apiAddPersonalInfo = useApi<Record>(`records/${url.value}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(record1),
+    });
+    
+    await apiAddPersonalInfo.request();
+    if (apiAddPersonalInfo.response.value) {
+      allRecords.push(apiAddPersonalInfo.response.value);
+      records.value=allRecords;
+    }
+  }
+
+  const deleteRecord = async (record : Record) =>{
+    const apiDeleteRecord = useApiRawRequest(`records/${record.id}`,{
+      method: 'DELETE',
+    });
+    const res = await apiDeleteRecord();
+
+    if (res.status === 204) {
+      let id = allRecords.indexOf(record);
+
+      if (id !== -1) {
+        allRecords.splice(id, 1);
+      }
+
+      id = allRecords.indexOf(record);
+
+      if (id !== -1) {
+        allRecords.splice(id, 1);
+      }
+
+      records.value = allRecords;
+    }
+    load();
+  };
+
+
   const deleteRecords = async () =>{
     const apiDeleteRecords = useApiRawRequest('records',{
       method: 'DELETE',
@@ -45,6 +94,8 @@ export const useRecordsStore = defineStore('recordsStore', () => {
     apiGetRecords = useApi<Record[]>('records');
     records.value = await loadRecords();
   };
+
+
   const combineRecords = async():Promise<number>=>{
      records.value= await loadRecords();
      let total:number=0;
@@ -77,5 +128,5 @@ export const useRecordsStore = defineStore('recordsStore', () => {
     return Math.round(total*100)/100;
   };
 
-  return { records, load, addRecord, combineRecords, deleteRecords }; 
+  return { records, load, addRecord, combineRecords, deleteRecords, deleteRecord, updateRecord, updateUrl }; 
 });

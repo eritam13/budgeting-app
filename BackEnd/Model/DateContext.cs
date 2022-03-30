@@ -14,6 +14,7 @@ namespace BackEnd.Model
             NpgsqlConnection.GlobalTypeMapper.MapEnum<CurrencySelection>();
         }
         public DbSet<Record>? RecordsList { get; set; }
+        public DbSet<PersonalInfo>? PersonalInfo { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,6 +30,14 @@ namespace BackEnd.Model
                     Currency = CurrencySelection.EUR,
                     Amount = 10,
                     Category=CategorySelection.FoodDrinks
+                });
+            modelBuilder.Entity<PersonalInfo>().HasData(
+                new PersonalInfo
+                {
+                    Id=1,
+                    Name = "Patrick",
+                    Surname = "Bateman",
+                    Birthday = DateTime.UtcNow
                 });
         }
     }

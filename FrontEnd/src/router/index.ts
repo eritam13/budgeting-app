@@ -2,6 +2,8 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import DashboardVue from '@/views/Dashboard.vue';
 import RecordsVue from '@/views/Records.vue';
 import ReportVue from '@/views/Report.vue';
+import PersonalInfoVue from '@/views/PersonalInfo.vue';
+import EditPersonalInfoVue from '@/views/EditPersonalInfo.vue';
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -9,8 +11,8 @@ const routes: Array<RouteRecordRaw> = [
     component: DashboardVue,
   },
   {
-    path: '/records',
-    name: 'Records',
+    path: '/addrecord',
+    name: 'AddRecord',
     component: RecordsVue,
   },
   {
@@ -18,7 +20,14 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Report',
     component: ReportVue,
   },
+  {
+    path: '/personalinfo',
+    name: 'PersonalInfo',
+    component: PersonalInfoVue,
+  },
+
 ];
+
 
 const router = createRouter({
   history: createWebHistory(),
