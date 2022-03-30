@@ -107,6 +107,21 @@ namespace BackEnd.Controllers
             _context.SaveChanges();
             return NoContent();
         }
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int? id) 
+        {
+            var record = _context.RecordsList?.Find(id);
+            if (record == null)
+            {
+                return NotFound();
+            }
+
+            _context.Remove(record);
+            _context.SaveChanges();
+
+            return NoContent();
+        }
+
         [HttpPut("{id}")]
         public IActionResult Update(string? id, [FromBody] BackEnd.Model.Record record)
         {
