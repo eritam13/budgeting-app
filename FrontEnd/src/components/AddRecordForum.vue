@@ -93,6 +93,7 @@ import { ref, Ref } from 'vue';
 import { useRouter } from 'vue-router';
 defineProps<{ title: string }>();
 const record: Ref<Record> = ref({
+  
   activity: '',
   description: '',
   date: new Date(),

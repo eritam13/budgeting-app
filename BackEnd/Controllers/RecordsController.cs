@@ -108,7 +108,7 @@ namespace BackEnd.Controllers
             return NoContent();
         }
         [HttpDelete("{id}")]
-        public IActionResult Delete(int? id) 
+        public IActionResult Delete(string? id) 
         {
             var record = _context.RecordsList?.Find(id);
             if (record == null)

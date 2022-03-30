@@ -39,6 +39,8 @@ export const usePersonalInfoStore = defineStore('personalInfoStore', () => {
       //console.log(apiGetPersonalInfo.response.value.at(parseInt(url.value!.toString())-1));
       return personalInfo1;
   };
+
+
   const load = async () => {
     personalInfo.value = await loadPersonalInfo();
   };

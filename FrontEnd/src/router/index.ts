@@ -11,8 +11,8 @@ const routes: Array<RouteRecordRaw> = [
     component: DashboardVue,
   },
   {
-    path: '/records',
-    name: 'Records',
+    path: '/addrecord',
+    name: 'AddRecord',
     component: RecordsVue,
   },
   {
