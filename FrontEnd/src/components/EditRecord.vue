@@ -90,43 +90,49 @@
 
 import { Record } from '@/modules/record';
 import { useRecordsStore } from '@/stores/recordsStore';
-import { storeToRefs } from 'pinia';
 import { ref, Ref } from 'vue';
 import { useRouter } from 'vue-router';
+import {onBeforeMount} from 'vue';
 defineProps<{ title: string }>();
-const recordsStore = useRecordsStore();
-const { records } = storeToRefs(recordsStore);
-const {deleteRecords} = useRecordsStore();
 const router = useRouter();
-const { addRecord, updateRecord } = useRecordsStore();
+const {updateRecord } = useRecordsStore();
+const {selectedRecord} = useRecordsStore();
+let c=new URL(location.href).pathname.toString().slice(9);
+const {loadInfoById} = useRecordsStore();
 const record: Ref<Record> = ref({
-  id:'',
-  activity: '',
-  description: '',
-  date: new Date(),
-  currency: '',
-  amount: 0,
-  category: '',
-});
-
+    id:selectedRecord.id,
+    activity: selectedRecord.activity,
+    description: selectedRecord.description,
+    date: selectedRecord.date,
+    currency: selectedRecord.currency,
+    amount: selectedRecord.amount,
+    category: selectedRecord.category,
+}); 
 
 let activityCheck:Ref<boolean>=ref(true);
 let currencyCheck:Ref<boolean>=ref(true);
 let categoryCheck:Ref<boolean>=ref(true);
 let amountCheck:Ref<boolean>=ref(true);
-const submitForm = () => {
-  //record.value.id=
-  let c=new URL(location.href).pathname.toString()
-  
-  console.log();
-  record.value.id=c.slice(9);
-  const date: Date = new Date(record.value.date);
-  record.value.date = new Date(
-  Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
-  );
-  updateRecord({...record.value})
-  router.push({ name: 'Dashboard' });
+const submitForm = async () => {
+  amountCheck.value =record.value.amount!=0;
+  categoryCheck.value=record.value.category!=""; 
+  currencyCheck.value=record.value.currency!="";
+  activityCheck.value=record.value.activity!="";
+  if(amountCheck.value==true && currencyCheck.value==true && categoryCheck.value==true && activityCheck.value==true) {
+    const date: Date = new Date(record.value.date);
+    record.value.date = new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    console.log(record.value);
+    updateRecord({...record.value});
+    router.push({ name: 'Dashboard' });
+  }
 };
+  onBeforeMount(async()=>{
+   await loadInfoById(c);
+   console.log(c);
+   console.log(selectedRecord);
+ });
+
 </script>
 <style scoped >
   .popup{

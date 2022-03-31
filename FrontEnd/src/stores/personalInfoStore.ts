@@ -36,7 +36,6 @@ export const usePersonalInfoStore = defineStore('personalInfoStore', () => {
         
       })
       personalInfo.value
-      //console.log(apiGetPersonalInfo.response.value.at(parseInt(url.value!.toString())-1));
       return personalInfo1;
   };
 
@@ -45,7 +44,7 @@ export const usePersonalInfoStore = defineStore('personalInfoStore', () => {
     personalInfo.value = await loadPersonalInfo();
   };
 
-  const updatePersonalInfo = async (personalInfo1: PersonalInfo) => {console.log(url.value)
+  const updatePersonalInfo = async (personalInfo1: PersonalInfo) => {
     const apiAddPersonalInfo = useApi<PersonalInfo>('personalinfo/'+url.value, {
       method: 'PUT',
       headers: {

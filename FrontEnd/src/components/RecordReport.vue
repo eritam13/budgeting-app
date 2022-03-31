@@ -3,6 +3,12 @@
     class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
   >
     <div class="max-w-md w-full space-y-8">
+      <label for="from">FROM---</label>
+      <input type="date" id="date" name="date" v-model="fromDate" />
+      <div></div>
+      <label for="date">TO---</label>
+      <input type="date" id="date" name="date" v-model="toDate" />
+      <div></div> 
       <div class="mt-8 space-y-6">
         <div class="rounded-md shadow-sm -space-y-px"> 
           <button id="record-button"
@@ -33,8 +39,9 @@
           </span>
           <dd></dd>
         </li>
-
-        <pie-chart :data="finalArr"></pie-chart>
+        <div v-if="records.length>0">
+          <pie-chart :data="finalArr"></pie-chart>
+        </div>
       </div>
       </div>
     </div>
@@ -52,15 +59,18 @@ const recordsStore = useRecordsStore();
 const reportStore = useReportStore();
 const {records} = storeToRefs(recordsStore);
 const {report} = storeToRefs(reportStore);
+let fromDate:Ref<Date> =ref(new Date(-8640000000000000));
+let toDate:Ref<Date> =ref(new Date(8640000000000000)); 
 let finalArr:Ref<(string| number)[][]>=ref([]);
 let reportCheck:Ref<boolean> = ref(true);
 let totalSpent:Ref<number> = ref(0);
 const getReport = async () => {
+    totalSpent.value = 0;
     var combine = async() => {
-    let result = await recordsStore.combineRecords();
+    let result = await recordsStore.combineRecords(fromDate.value,toDate.value);
     return result;
     }
-    if(reportCheck.value==true)
+    if(reportCheck.value = true)
     {
       totalSpent.value += await combine();
     }
@@ -79,7 +89,6 @@ const getPieChartData = async () => {
       finalArray.push(smallArray);
     }
    }
-   console.log(finalArray);
    finalArr.value=finalArray;
 };
 onMounted(() => {
