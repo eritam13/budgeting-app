@@ -1,4 +1,6 @@
+
 <template>
+<body >
   <div
     class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
   >
@@ -30,7 +32,8 @@
           <div>
             <label for="date">Date</label>
             <dd></dd>
-            <input type="date" id="date" name="date" v-model="record.date" />
+            <input type="date"  id="date" name="date" v-model="record.date" />
+            <input type="time" id="time" name="time" v-model="record.time"/>
             <dd></dd>
             <dd></dd>
             <label for="currency">Currency</label>
@@ -84,7 +87,9 @@
       </div>
     </div>
   </div>
+  </body>
 </template>
+
 <script setup lang="ts">
 
 
@@ -104,10 +109,24 @@ const record: Ref<Record> = ref({
     activity: selectedRecord.activity,
     description: selectedRecord.description,
     date: selectedRecord.date,
+    time: selectedRecord.time,
     currency: selectedRecord.currency,
     amount: selectedRecord.amount,
     category: selectedRecord.category,
 }); 
+
+
+onMounted (()=>{
+  var d=(<HTMLInputElement>document.getElementById("date"));
+  d.valueAsDate=selectedRecord.date;
+});
+
+
+//  function setDate (){
+//    console.log("ASSASDASDASDADSA");
+//   (<HTMLInputElement>document.getElementById("date")).value=selectedRecord.date.toDateString()
+// };
+
 
 let activityCheck:Ref<boolean>=ref(true);
 let currencyCheck:Ref<boolean>=ref(true);

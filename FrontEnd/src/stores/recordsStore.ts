@@ -111,6 +111,7 @@ export const useRecordsStore = defineStore('recordsStore', () => {
             req.id= r!.id,
             req.activity= r!.activity,
             req.date=r!.date,
+            req.time=r!.time,
             req.description= r!.description,
             req.currency= r!.currency,
             req.amount= r!.amount,
