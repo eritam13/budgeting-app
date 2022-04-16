@@ -17,11 +17,7 @@ export const useRecordsStore = defineStore('recordsStore', () => {
   }
   );
   let allRecords:Record[]=[];
-  let url=ref<String>();
-  url.value='1';
-  const updateUrl=async (newurl:String) =>{
-    url.value=newurl;
-  };
+  
   const loadRecords = async () => {
     await apiGetRecords.request();
     if (apiGetRecords.response.value) {
@@ -68,7 +64,9 @@ export const useRecordsStore = defineStore('recordsStore', () => {
     if (apiUpdateRecord.response.value) {
       allRecords.push(apiUpdateRecord.response.value);
       records.value=allRecords;
+      load();
     }
+
   }
 
   const deleteRecord = async (record : Record) =>{
@@ -94,8 +92,8 @@ export const useRecordsStore = defineStore('recordsStore', () => {
     }
     load();
   };
-  const loadInfoById = async (id : String) => {
-      records.value= await loadRecords();
+  const loadInfoById = (id : String) => {
+      load();
       let req:Record={
         id:'',
         activity: '',
@@ -167,5 +165,5 @@ export const useRecordsStore = defineStore('recordsStore', () => {
     return Math.round(total*100)/100;
   };
 
-  return { records,selectedRecord, load, addRecord, combineRecords, deleteRecords, deleteRecord, updateRecord, updateUrl,loadInfoById }; 
+  return { records,selectedRecord, load, addRecord, combineRecords, deleteRecords, deleteRecord, updateRecord,loadInfoById }; 
 });

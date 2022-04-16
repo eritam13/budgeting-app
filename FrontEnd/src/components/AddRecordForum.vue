@@ -92,14 +92,14 @@ import { useRecordsStore } from '@/stores/recordsStore';
 import { ref, Ref } from 'vue';
 import { useRouter } from 'vue-router';
 defineProps<{ title: string }>();
-const record: Ref<Record> = ref({
-  
+
+const record: Ref<Record> = ref({  
   activity: '',
   description: '',
   date: new Date(),
   currency: '',
   amount: 0,
-  category: '',
+  category: ''
 });
 const { addRecord } = useRecordsStore();
 const router = useRouter();
@@ -115,16 +115,19 @@ const submitForm = () => {
   currencyCheck.value=record.value.currency!="";
   activityCheck.value=record.value.activity!="";
   if(amountCheck.value==true && currencyCheck.value==true && categoryCheck.value==true && activityCheck.value==true) {
+    
     const date: Date = new Date(record.value.date);
     record.value.date = new Date(
       Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
     );
     addRecord({ ...record.value });
+    
     record.value.activity = '';
     record.value.description = '';
     record.value.currency = '';
     record.value.amount = 0;
     record.value.category = '';
+    record.value.date=new Date();
     router.push({ name: 'Dashboard' });
   }
 };

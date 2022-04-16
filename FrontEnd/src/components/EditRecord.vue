@@ -90,15 +90,15 @@
 
 import { Record } from '@/modules/record';
 import { useRecordsStore } from '@/stores/recordsStore';
-import { ref, Ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { onMounted, ref, Ref } from 'vue';
+import { onBeforeRouteUpdate, useRouter } from 'vue-router';
 import {onBeforeMount} from 'vue';
-defineProps<{ title: string }>();
+
 const router = useRouter();
 const {updateRecord } = useRecordsStore();
 const {selectedRecord} = useRecordsStore();
 let c=new URL(location.href).pathname.toString().slice(9);
-const {loadInfoById} = useRecordsStore();
+
 const record: Ref<Record> = ref({
     id:selectedRecord.id,
     activity: selectedRecord.activity,
@@ -119,6 +119,7 @@ const submitForm = async () => {
   currencyCheck.value=record.value.currency!="";
   activityCheck.value=record.value.activity!="";
   if(amountCheck.value==true && currencyCheck.value==true && categoryCheck.value==true && activityCheck.value==true) {
+    record.value.id=c;
     const date: Date = new Date(record.value.date);
     record.value.date = new Date(
     Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
@@ -127,11 +128,7 @@ const submitForm = async () => {
     router.push({ name: 'Dashboard' });
   }
 };
-  onBeforeMount(async()=>{
-   await loadInfoById(c);
-   console.log(c);
-   console.log(selectedRecord);
- });
+
 
 </script>
 <style scoped >

@@ -1,5 +1,5 @@
 export interface Record {
-    id:string;
+    id?:string;
     activity: string;
     description: string;
     date: Date;

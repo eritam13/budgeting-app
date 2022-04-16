@@ -62,7 +62,7 @@ import EditRecordVue from '@/components/EditRecord.vue';
 defineProps<{ title: string }>();
 const recordsStore = useRecordsStore();
 const { records } = storeToRefs(recordsStore);
-const {deleteRecords, updateUrl } = useRecordsStore();
+const {deleteRecords,loadInfoById } = useRecordsStore();
 const router = useRouter();
 const clearRecords = ()=>{
   deleteRecords();
@@ -75,9 +75,9 @@ onMounted(() => {
 
 
 const edit=(record: Record) => {
-  router.addRoute({path:'/records/'+record.id,name:'EditPersonalInfo',component:EditRecordVue});
-  updateUrl(record.id!);
-  router.push({path:'/records/'+record.id,name:'EditPersonalInfo'});
+  loadInfoById(record.id!)
+  router.addRoute({path:'/records/'+record.id,name:'EditRecord',component:EditRecordVue});
+  router.push({path:'/records/'+record.id,name:'EditRecord'});
 };
 
 

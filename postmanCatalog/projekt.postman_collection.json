@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "006c4835-d5d8-427e-9d3d-5ddc219385be",
+		"_postman_id": "34077ae4-8118-4715-afe5-2827d1be5e5d",
 		"name": "projekt",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -230,6 +230,164 @@
 					"path": [
 						"api",
 						"Records"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1.2a PostRecord",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Activity\":\"Bought bread\",\r\n    \"Description\":\"went to maxima and bought bread\", \r\n    \"Date\":\"2022-03-09T00:00:00Z\", \r\n    \"Currency\":\"EUR\",\r\n    \"Amount\":10,\r\n    \"Category\":\"FoodDrinks\"}"
+				},
+				"url": {
+					"raw": "{{url}}/api/Records",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"Records"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1.2b GetRecords",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code 200\",function(){\r",
+							"    pm.response.to.have.status(200)\r",
+							"})\r",
+							"pm.test(\"id good\",function(){\r",
+							"    var data = pm.response.json();\r",
+							"    var id = data[0].id\r",
+							"    pm.globals.set(\"RecordId\",id)\r",
+							"    pm.expect(id).to.eql(pm.globals.get(\"RecordId\"))\r",
+							"\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/Records",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"Records"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1.2c EditRecord",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code 204\",function(){\r",
+							"    pm.response.to.have.status(204)\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n    \"id\": \"{{RecordId}}\",\r\n    \"activity\": \"Food\",\r\n    \"description\": \"Bought pepsi\",\r\n    \"date\": \"2022-02-28T00:00:00Z\",\r\n    \"currency\": \"USD\",\r\n    \"amount\": 1000,\r\n    \"category\": \"Shopping\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/api/Records/{{RecordId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"Records",
+						"{{RecordId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1.2d GetRecord",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code 200\",function(){\r",
+							"    pm.response.to.have.status(200)\r",
+							"})\r",
+							"pm.test(\"content changed\",function(){\r",
+							"   var data=pm.response.json();\r",
+							"   pm.expect(data.description).to.eql(\"Bought pepsi\")\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/Records/{{RecordId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"Records",
+						"{{RecordId}}"
 					]
 				}
 			},

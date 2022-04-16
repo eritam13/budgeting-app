@@ -6,15 +6,19 @@
           <Column field="name" header="Name" />
           <Column field="surname" header="Surname" />
           <Column field="birthday" header="Birthday" />
-        </DataTable>
-    </div>
-       <button
+          <Column>
+          <template #body="{ data }">
+            <button
             class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md 
             text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            @click="submitForm">
+            @click="edit(data)">
             Edit
-          </button>
-          
+            </button>
+          </template>
+          </Column> 
+        </DataTable>
+    </div>
+    
           
   </div>
 </template>
@@ -28,20 +32,19 @@ import { ref, Ref } from 'vue';
 import { useRouter } from 'vue-router';
 import EditPersonalInfoVue from '@/components/EditPersonalInfo.vue';
 import { stringify } from 'querystring';
+import { PersonalInfo } from '@/modules/personalinfo'
 
 const personalInfoStore = usePersonalInfoStore();
 const  {personalInfo}  = storeToRefs(personalInfoStore);
+const router = useRouter();
+const {loadInfoById}=usePersonalInfoStore();
 onMounted(() => {
   personalInfoStore.load();
 });
 
-
-const router = useRouter();
-const {updateUrl}=usePersonalInfoStore();
-
-const submitForm = () => {
-  router.addRoute({path:'/personalinfo/'+personalInfo.value.at(0)?.id,name:'EditPersonalInfo',component:EditPersonalInfoVue})
-  updateUrl(personalInfo.value.at(0)!.id.toString());
-  router.push({path:'/personalinfo/'+personalInfo.value.at(0)?.id,name:'EditPersonalInfo'})
+const edit = (personalInfo:PersonalInfo) => {
+  loadInfoById(personalInfo.id!)
+  router.addRoute({path:'/personalinfo/'+personalInfo.id, name:'EditPersonalInfo',component:EditPersonalInfoVue})
+  router.push({path:'/personalinfo/'+personalInfo.id, name:'EditPersonalInfo'})
 };
 </script>
