@@ -5,9 +5,11 @@
     <div class="max-w-md w-full space-y-8">
       <label for="from">FROM---</label>
       <input type="date" id="date" name="date" v-model="fromDate" />
+      <input type="time" id="appt" name="appt" v-model="fromTime">
       <div></div>
       <label for="date">TO---</label>
       <input type="date" id="date" name="date" v-model="toDate" />
+      <input type="time" id="appt" name="appt" v-model="toTime">
       <div></div> 
       <div class="mt-8 space-y-6">
         <div class="rounded-md shadow-sm -space-y-px"> 
@@ -30,10 +32,10 @@
             {{r.category}} - {{r.amount}}$
           </span>
           <dd></dd>
-          <span v-for="rp in records" :key="r.category">
+          <span v-for="rp in reportSheet" :key="r.category">
               <div v-if="rp.category==r.category">
-                <div>
-                         Activity: {{rp.activity}} | Description: {{rp.description}} | Amount: {{rp.amount}} | Date: {{rp.date}} 
+                <div> 
+                         Activity: {{rp.activity}} | Description: {{rp.description}} | Amount: {{rp.amount}} | Date: {{rp.date}} | Time: {{rp.time}}
                 </div>        
               </div>
           </span>
@@ -54,17 +56,42 @@ import {useReportStore} from '@/stores/reportStore'
 import { storeToRefs } from 'pinia';
 import { ref, Ref } from 'vue';
 import { onMounted } from 'vue';
-
+import { Record } from '@/modules/record';
 const recordsStore = useRecordsStore();
 const reportStore = useReportStore();
 const {records} = storeToRefs(recordsStore);
 const {report} = storeToRefs(reportStore);
-let fromDate:Ref<Date> =ref(new Date(-8640000000000000));
-let toDate:Ref<Date> =ref(new Date(8640000000000000)); 
+
+const {s} = storeToRefs(reportStore);
+const {e} = storeToRefs(reportStore);
+
+let fromDate:Ref<Date> =s;
+let toDate:Ref<Date> =e;
+
+let fromTime:Ref<string>=ref("00:00");
+
+let toTime:Ref<string>=ref("23:59");
+
 let finalArr:Ref<(string| number)[][]>=ref([]);
+
 let reportCheck:Ref<boolean> = ref(true);
 let totalSpent:Ref<number> = ref(0);
+
+let reportSheet:Ref<Record[]>=ref([]);
+
 const getReport = async () => {
+    const date1: Date = new Date(fromDate.value);
+    fromDate.value = new Date(
+      date1.getFullYear(), date1.getMonth(), date1.getDate(),parseInt(fromTime.value.split(":")[0]),parseInt(fromTime.value.split(":")[1])
+    );
+    const date2: Date = new Date(toDate.value);
+    toDate.value = new Date(
+      date2.getFullYear(), date2.getMonth(), date2.getDate(),parseInt(toTime.value.split(":")[0]),parseInt(toTime.value.split(":")[1]),
+    );
+    s.value = fromDate.value;
+    e.value =toDate.value;
+    reportStore.loadReport();
+
     totalSpent.value = 0;
     var combine = async() => {
     let result = await recordsStore.combineRecords(fromDate.value,toDate.value);
@@ -76,6 +103,15 @@ const getReport = async () => {
     }
     getPieChartData();
     reportCheck.value = false;
+
+    reportSheet.value=[];
+    records.value.forEach(r=> { 
+      const dateToCheck = new Date(r.date.getFullYear(),r.date.getMonth(),r.date.getDate(),parseInt(r.time.split(":")[0]),parseInt(r.time.split(":")[1]));
+      if (dateToCheck<=toDate.value && dateToCheck>=fromDate.value)
+      {
+        reportSheet.value.push(r);
+      }
+    });
 };
 
 const getPieChartData = async () => {
@@ -87,9 +123,11 @@ const getPieChartData = async () => {
     {
       let smallArray: (string|number)[]=[c,a];
       finalArray.push(smallArray);
+      finalArray.forEach(r=>{console.log(r)})
+      console.log("lol")
     }
+    finalArr.value=finalArray;
    }
-   finalArr.value=finalArray;
 };
 onMounted(() => {
   reportStore.loadReport();

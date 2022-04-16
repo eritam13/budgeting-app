@@ -42,13 +42,13 @@ namespace BackEnd.Controllers
             {
                 return NotFound();
             }
-
             return Ok(record);
         }
         [Route("report")]
-        [HttpGet]
-        public IActionResult GetReport()
+        [HttpGet()]
+        public IActionResult GetReport([FromQuery]DateTime from, [FromQuery]DateTime to)
         {
+            
             List<Report> totalReport = new List<Report>();
             Dictionary<string,decimal> report = new Dictionary<string,decimal>()
             {
@@ -65,13 +65,19 @@ namespace BackEnd.Controllers
             {
                 if(report.ContainsKey(r.Category.ToString()))
                 {
-                    if(r.Currency.ToString() == "USD")
+                    int hours = Convert.ToInt32(r.Time.Split(":")[0]);
+                    int minutes = Convert.ToInt32(r.Time.Split(":")[1]);
+                    DateTime check = new DateTime(r.Date.Value.Year,r.Date.Value.Month,r.Date.Value.Day,hours,minutes,00);
+                    if(check>=from && check<=to)
                     {
-                    report[r.Category.ToString()] +=r.Amount;
-                    }
-                    if(r.Currency.ToString()=="EUR")
-                    {
-                        report[r.Category.ToString()]+=r.Amount*1.1M;
+                        if(r.Currency.ToString() == "USD")
+                        {
+                        report[r.Category.ToString()] +=r.Amount;
+                        }
+                        if(r.Currency.ToString()=="EUR")
+                        {
+                            report[r.Category.ToString()]+=r.Amount*1.1M;
+                        }
                     }
                 }
             }
