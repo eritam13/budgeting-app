@@ -9,6 +9,7 @@ export const useRecordsStore = defineStore('recordsStore', () => {
   let selectedRecord:Ref<Record> = ref<Record>({
         id:'',
         activity: '',
+        time: `${new Date().getHours()}:${new Date().getMinutes()}`,
         description: '',
         date: new Date(),
         currency: '',
@@ -96,6 +97,7 @@ export const useRecordsStore = defineStore('recordsStore', () => {
       load();
       let req:Record={
         id:'',
+        time: `${new Date().getHours()}:${new Date().getMinutes()}`,
         activity: '',
         description: '',
         date: new Date(),
@@ -134,9 +136,8 @@ export const useRecordsStore = defineStore('recordsStore', () => {
      if(records.value)
      {
               records.value.forEach(record =>{
-              console.log(record.date>=from);
-              console.log(record.date<=to);
-              if(record.date>=from && record.date<=to)  
+              const d = new Date(record.date.getFullYear(),record.date.getMonth(),record.date.getDate(),parseInt(record.time.split(":")[0]),parseInt(record.time.split(":")[1]))
+              if(d>=from && d<=to)  
               {
                 if(record.currency.toString() === 'EUR')
                 {

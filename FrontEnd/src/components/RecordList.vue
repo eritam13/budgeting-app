@@ -23,6 +23,7 @@
           <Column field="currency" header="Currency"/>
           <Column field="amount" header="Amount"/>
           <Column field="category" header="Category"/>
+          <Column field="time" header="Time"/>
           <Column>
           <template #body="{ data }">
             <button

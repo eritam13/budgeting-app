@@ -31,6 +31,7 @@
             <label for="date">Date</label>
             <dd></dd>
             <input type="date" id="date" name="date" v-model="record.date" />
+            <input type="time" id="time" name="time" v-model="record.time"/>
             <dd></dd>
             <dd></dd>
             <label for="currency">Currency</label>
@@ -66,6 +67,7 @@
             id="amount"
             name="amount"
             type="number"
+            min="0"
             v-model="record.amount"
             class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
             placeholder="Amount"
@@ -92,9 +94,10 @@ import { useRecordsStore } from '@/stores/recordsStore';
 import { ref, Ref } from 'vue';
 import { useRouter } from 'vue-router';
 defineProps<{ title: string }>();
+const record: Ref<Record> = ref({
 
-const record: Ref<Record> = ref({  
   activity: '',
+  time: ``,
   description: '',
   date: new Date(),
   currency: '',
@@ -115,7 +118,7 @@ const submitForm = () => {
   currencyCheck.value=record.value.currency!="";
   activityCheck.value=record.value.activity!="";
   if(amountCheck.value==true && currencyCheck.value==true && categoryCheck.value==true && activityCheck.value==true) {
-    
+    if(record.value.time ==''){record.value.time=`${new Date().getHours()}:${new Date().getMinutes()}`}
     const date: Date = new Date(record.value.date);
     record.value.date = new Date(
       Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),

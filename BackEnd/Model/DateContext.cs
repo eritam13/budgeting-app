@@ -19,18 +19,6 @@ namespace BackEnd.Model
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.HasPostgresEnum<CurrencySelection>();
-            modelBuilder.Entity<Record>().HasData(
-                new Record
-                {
-                    Activity = "Bought bread",
-                    Description = "went to maxima and bought bread",
-                    Date = DateTime.UtcNow,
-                    Currency = CurrencySelection.EUR,
-                    Amount = 10,
-                    Category=CategorySelection.FoodDrinks
-                });
             modelBuilder.Entity<PersonalInfo>().HasData(
                 new PersonalInfo
                 {
