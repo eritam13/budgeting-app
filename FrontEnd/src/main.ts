@@ -12,7 +12,6 @@ import router from './router';
 import VueChartkick from 'vue-chartkick' 
 import 'chartkick/chart.js'
 import { setApiUrl } from './modules/api';
-
 const getRuntimeConf = async () => {
   const runtimeConf = await fetch('/config/runtime-config.json');
   return await runtimeConf.json();

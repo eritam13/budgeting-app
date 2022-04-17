@@ -45,6 +45,7 @@
           <pie-chart :data="finalArr"></pie-chart>
         </div>
       </div>
+      <a id="reportID" hidden download="report.csv">Download your report</a>
       </div>
     </div>
   </div>
@@ -57,10 +58,13 @@ import { storeToRefs } from 'pinia';
 import { ref, Ref } from 'vue';
 import { onMounted } from 'vue';
 import { Record } from '@/modules/record';
+
 const recordsStore = useRecordsStore();
 const reportStore = useReportStore();
 const {records} = storeToRefs(recordsStore);
 const {report} = storeToRefs(reportStore);
+
+
 
 const {s} = storeToRefs(reportStore);
 const {e} = storeToRefs(reportStore);
@@ -78,6 +82,13 @@ let reportCheck:Ref<boolean> = ref(true);
 let totalSpent:Ref<number> = ref(0);
 
 let reportSheet:Ref<Record[]>=ref([]);
+
+
+
+
+let csvArray : (string | number)[][]= [];
+
+let BlobURL:Ref<string> =ref("");
 
 const getReport = async () => {
     const date1: Date = new Date(fromDate.value);
@@ -114,8 +125,31 @@ const getReport = async () => {
     });
 };
 
+const getCSVdata=async (ar:(string | number)[][])=>{
+  csvArray=[];
+  let fromCSV:string=`FROM: ${fromDate.value.getFullYear()}/${fromDate.value.getMonth()+1}/${fromDate.value.getDate()}-${fromTime.value}`
+  let toCSV:string = `TO: ${toDate.value.getFullYear()}/${toDate.value.getMonth()+1}/${toDate.value.getDate()}-${toTime.value}`
+  csvArray.unshift([fromCSV,toCSV])
+  ar.forEach(r=>{
+    csvArray.push(r);
+  })
+}
+function MakeCSVrows(rows){
+  return rows.map(r=>r.join(",")).join("\r\n");
+}
+function CreateBlob(data){
+  let reportID = (<HTMLAnchorElement>document.getElementById("reportID"));
+  reportID.removeAttribute("hidden");
+  console.log([MakeCSVrows(data)]);
+  let blob = new Blob([MakeCSVrows(data)]);
+  BlobURL.value = "";
+  reportID.setAttribute('href',URL.createObjectURL(blob))
+  BlobURL.value=URL.createObjectURL(blob);
+}
+
 const getPieChartData = async () => {
-  let finalArray : (string | number)[][]=[];
+   let finalArray : (string | number)[][] =[];
+   console.log(csvArray);
    for (let i = 0; i < report.value.length; i++) {
     let c :string = report.value[i].category;
     let a :number = report.value[i].amount;
@@ -123,11 +157,12 @@ const getPieChartData = async () => {
     {
       let smallArray: (string|number)[]=[c,a];
       finalArray.push(smallArray);
-      finalArray.forEach(r=>{console.log(r)})
-      console.log("lol")
     }
     finalArr.value=finalArray;
    }
+   getCSVdata(finalArray);
+   CreateBlob(csvArray);
+   console.log(csvArray);
 };
 onMounted(() => {
   reportStore.loadReport();
