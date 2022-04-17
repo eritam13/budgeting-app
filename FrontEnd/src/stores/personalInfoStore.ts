@@ -9,11 +9,13 @@ export const usePersonalInfoStore = defineStore('personalInfoStore', () => {
   let apiGetPersonalInfo = useApi<PersonalInfo[]>('personalinfo');
   let allInfo:PersonalInfo[]=[];
   let personalInfo = ref<PersonalInfo[]>([]);
-  let url=ref<String>();
-  url.value='1';
-  const updateUrl=async (newurl:String) =>{
-    url.value=newurl;
-  };
+  let selectedPersonalInfo:Ref<PersonalInfo> = ref<PersonalInfo>({
+    id:0,
+    name: '',
+    surname: '',
+    birthday: new Date()
+}
+);
   const loadPersonalInfo = async () => {
     await apiGetPersonalInfo.request();
     if (apiGetPersonalInfo.response.value) {
@@ -25,27 +27,35 @@ export const usePersonalInfoStore = defineStore('personalInfoStore', () => {
   };
 
 
-  const loadInfoById = async () :Promise<Ref<PersonalInfo>> => {
-    await apiGetPersonalInfo.request();
-      let c=apiGetPersonalInfo.response.value!.at(parseInt(url.value!.toString())-1);
-      let personalInfo1:Ref<PersonalInfo>= ref<PersonalInfo>({
-        id: c!.id,
-        name: c!.name,
-        surname:c!.surname,
-        birthday: c!.birthday
-        
-      })
-      personalInfo.value
-      return personalInfo1;
+  const loadInfoById = (id:number) => {
+      load();
+      let pi:PersonalInfo={
+        id:0,
+        name: '',
+        surname: '',
+        birthday: new Date()
+      };
+      personalInfo.value!.forEach(function(p){
+        if(p.id==id)
+        {
+          pi.id= p!.id,
+          pi.name= p!.name,
+          pi.surname= p!.surname,
+          pi.birthday=p!.birthday
+        }
+      });
+      selectedPersonalInfo.value= pi;
   };
 
 
   const load = async () => {
     personalInfo.value = await loadPersonalInfo();
+    personalInfo.value.forEach(function(value:any) {
+    });
   };
 
   const updatePersonalInfo = async (personalInfo1: PersonalInfo) => {
-    const apiAddPersonalInfo = useApi<PersonalInfo>('personalinfo/'+url.value, {
+    const apiUpdatePersonalInfo = useApi<PersonalInfo>(`personalinfo/${personalInfo1.id}`, {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
@@ -54,12 +64,14 @@ export const usePersonalInfoStore = defineStore('personalInfoStore', () => {
       body: JSON.stringify(personalInfo1),
     });
     
-    await apiAddPersonalInfo.request();
-    if (apiAddPersonalInfo.response.value) {
-      allInfo.push(apiAddPersonalInfo.response.value);
+    await apiUpdatePersonalInfo.request();
+    if (apiUpdatePersonalInfo.response.value) {
+      allInfo.push(apiUpdatePersonalInfo.response.value);
       personalInfo.value=allInfo;
+      load();
     }
+    
   }
 
-  return {personalInfo, load, updatePersonalInfo, updateUrl, loadInfoById};
+  return {personalInfo,selectedPersonalInfo, load, updatePersonalInfo, loadInfoById};
 });

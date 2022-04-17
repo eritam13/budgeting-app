@@ -102,7 +102,7 @@ const record: Ref<Record> = ref({
   date: new Date(),
   currency: '',
   amount: 0,
-  category: '',
+  category: ''
 });
 const { addRecord } = useRecordsStore();
 const router = useRouter();
@@ -124,11 +124,13 @@ const submitForm = () => {
       Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
     );
     addRecord({ ...record.value });
+    
     record.value.activity = '';
     record.value.description = '';
     record.value.currency = '';
     record.value.amount = 0;
     record.value.category = '';
+    record.value.date=new Date();
     router.push({ name: 'Dashboard' });
   }
 };

@@ -11,7 +11,7 @@ namespace BackEnd.Model
     public record Record
     {
 
-        [Column("id"),Required]
+        [Column("id"), Required]
         public string Id { get; init; } = Guid.NewGuid().ToString();
         [Column("activity"),Required]
         public string? Activity { get; init;}

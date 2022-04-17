@@ -1,4 +1,6 @@
+
 <template>
+<body >
   <div
     class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
   >
@@ -30,7 +32,8 @@
           <div>
             <label for="date">Date</label>
             <dd></dd>
-            <input type="date" id="date" name="date" v-model="record.date" />
+            <input type="date"  id="date" name="date" v-model="record.date" />
+            <input type="time" id="time" name="time" v-model="record.time"/>
             <dd></dd>
             <dd></dd>
             <label for="currency">Currency</label>
@@ -84,30 +87,46 @@
       </div>
     </div>
   </div>
+  </body>
 </template>
+
 <script setup lang="ts">
 
 
 import { Record } from '@/modules/record';
 import { useRecordsStore } from '@/stores/recordsStore';
-import { ref, Ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { onMounted, ref, Ref } from 'vue';
+import { onBeforeRouteUpdate, useRouter } from 'vue-router';
 import {onBeforeMount} from 'vue';
-defineProps<{ title: string }>();
+
 const router = useRouter();
 const {updateRecord } = useRecordsStore();
 const {selectedRecord} = useRecordsStore();
 let c=new URL(location.href).pathname.toString().slice(9);
-const {loadInfoById} = useRecordsStore();
+
 const record: Ref<Record> = ref({
     id:selectedRecord.id,
     activity: selectedRecord.activity,
     description: selectedRecord.description,
     date: selectedRecord.date,
+    time: selectedRecord.time,
     currency: selectedRecord.currency,
     amount: selectedRecord.amount,
     category: selectedRecord.category,
 }); 
+
+
+onMounted (()=>{
+  var d=(<HTMLInputElement>document.getElementById("date"));
+  d.valueAsDate=selectedRecord.date;
+});
+
+
+//  function setDate (){
+//    console.log("ASSASDASDASDADSA");
+//   (<HTMLInputElement>document.getElementById("date")).value=selectedRecord.date.toDateString()
+// };
+
 
 let activityCheck:Ref<boolean>=ref(true);
 let currencyCheck:Ref<boolean>=ref(true);
@@ -119,6 +138,7 @@ const submitForm = async () => {
   currencyCheck.value=record.value.currency!="";
   activityCheck.value=record.value.activity!="";
   if(amountCheck.value==true && currencyCheck.value==true && categoryCheck.value==true && activityCheck.value==true) {
+    record.value.id=c;
     const date: Date = new Date(record.value.date);
     record.value.date = new Date(
     Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
@@ -127,11 +147,7 @@ const submitForm = async () => {
     router.push({ name: 'Dashboard' });
   }
 };
-  onBeforeMount(async()=>{
-   await loadInfoById(c);
-   console.log(c);
-   console.log(selectedRecord);
- });
+
 
 </script>
 <style scoped >

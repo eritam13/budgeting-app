@@ -55,17 +55,15 @@ import { usePersonalInfoStore } from '@/stores/personalInfoStore';
 import { cloneVNode, ref, Ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-const  {updatePersonalInfo, loadInfoById,load}  = usePersonalInfoStore();
+const  {updatePersonalInfo, selectedPersonalInfo}  = usePersonalInfoStore();
 const router = useRouter();
-// const v=await loadInfoById();
-// console.log(v.value.name);
 
 
 const personalInfo: Ref<PersonalInfo> = ref<PersonalInfo>({
-        id: 1,
-        name: '',
-        surname: '',
-        birthday: new Date(),
+        id: selectedPersonalInfo.id,
+        name: selectedPersonalInfo.name,
+        surname: selectedPersonalInfo.surname,
+        birthday: selectedPersonalInfo.birthday
       })
 
 
