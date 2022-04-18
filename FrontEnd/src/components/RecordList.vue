@@ -59,24 +59,25 @@ import { onMounted, onUpdated, ref } from 'vue';
 import { Record } from '@/modules/record'
 import { useRouter } from 'vue-router';
 import EditRecordVue from '@/components/EditRecord.vue';
-import {FilterMatchMode,FilterOperator} from 'primevue/api'
 defineProps<{ title: string }>();
 const recordsStore = useRecordsStore();
 const { records } = storeToRefs(recordsStore);
 const {recordsFacade} = storeToRefs(recordsStore);
 const {deleteRecords,loadInfoById } = useRecordsStore();
 const router = useRouter();
-let loading1=ref(true);
-
+let load=false;
 
 const clearRecords = ()=>{
   deleteRecords();
 }
 onUpdated(()=>{
-  recordsStore.load()
+  if(load==false)
+  {
+    recordsStore.load()
+  }
+  load=true;
 })
 onMounted(() => {
-  loading1.value=false;
   recordsStore.load();
 });
 const edit=(record: Record) => {

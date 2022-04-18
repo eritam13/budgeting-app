@@ -36,7 +36,7 @@
                 <div>
                   Activity: {{ rp.activity }} | Description:
                   {{ rp.description }} | Amount: {{ rp.amount }} | Date:
-                  {{ rp.date }} | Time: {{ rp.time }}
+                  {{ rp.date.toString().split("00:00:00")[0] }} | Time: {{ rp.time }}
                 </div>
               </div>
             </span>
@@ -59,6 +59,8 @@ import { storeToRefs } from 'pinia';
 import { onUpdated, ref, Ref } from 'vue';
 import { onMounted } from 'vue';
 import { Record } from '@/modules/record';
+import 'chartkick/chart.js'
+
 const recordsStore = useRecordsStore();
 const reportStore = useReportStore();
 const { records } = storeToRefs(recordsStore);
@@ -69,12 +71,14 @@ let fromDate: Ref<Date> = s;
 let toDate: Ref<Date> = e;
 let fromTime: Ref<string> = ref('00:00');
 let toTime: Ref<string> = ref('23:59');
-let finalArr: Ref<(string | number)[][]> = ref([]);
+let finalArr: Ref<(string | number | String)[][]> = ref([]);
 let reportCheck: Ref<boolean> = ref(true);
 let totalSpent: Ref<number> = ref(0);
 let reportSheet: Ref<Record[]> = ref([]);
-let csvArray: (string | number)[][] = [];
+let csvArray: (string | number | String)[][] = [];
 let BlobURL: Ref<string> = ref('');
+const categories = ['FoodDrinks','Shopping','Housing','Transportation','Income','Investments','Entertainment','Other'];
+
 const getReport = async () => {
   const date1: Date = new Date(fromDate.value);
   fromDate.value = new Date(
@@ -122,7 +126,8 @@ const getReport = async () => {
     }
   });
 };
-const getCSVdata = async (ar: (string | number)[][]) => {
+
+const getCSVdata = async (ar: (string | number | String)[][]) => {
   csvArray = [];
   let fromCSV: string = `FROM: ${fromDate.value.getFullYear()}/${
     fromDate.value.getMonth() + 1
@@ -131,13 +136,28 @@ const getCSVdata = async (ar: (string | number)[][]) => {
     toDate.value.getMonth() + 1
   }/${toDate.value.getDate()}-${toTime.value}`;
   csvArray.unshift([fromCSV, toCSV]);
+  csvArray.push(["Report for the above mentioned time: "])
   ar.forEach((r) => {
-    csvArray.push(r);
+    csvArray.push([r[0],r[1]+"$"]);
   });
+  csvArray.push([`\nAll transactions ${fromCSV} ${toCSV}`])
+    categories.forEach((gr)=>{
+    csvArray.push([gr +":"]);
+    reportSheet.value.forEach((r)=>{
+      console.log(gr==r.category)
+      if(gr==r.category)
+      {
+      console.log(r.time);
+      csvArray.push([r.activity,r.description,r.amount,r.currency,r.date.toString().split("00:00:00")[0],r.time])
+      }
+    })
+    csvArray.push([""])
+  })
 };
 function MakeCSVrows(rows) {
   return rows.map((r) => r.join(',')).join('\r\n');
 }
+
 function CreateBlob(data) {
   let reportID = <HTMLAnchorElement>document.getElementById('reportID');
   reportID.removeAttribute('hidden');
@@ -148,7 +168,7 @@ function CreateBlob(data) {
 }
 const getPieChartData = async () => {
   reportStore.loadReport();
-  let finalArray: (string | number)[][] = [];
+  let finalArray: (string | number | String)[][] = [];
   for (let i = 0; i < report.value.length; i++) {
     let c: string = report.value[i].category;
     let a: number = report.value[i].amount;
@@ -166,7 +186,6 @@ onMounted(() => {
   recordsStore.load();
 });
 onUpdated(() => {
-  console.log(fromDate.value)
   var d = <HTMLInputElement>document.getElementById('fromDate');
   var c = <HTMLInputElement>document.getElementById('toDate');
   if(fromDate.value.toString().length>11)
