@@ -59,7 +59,6 @@ import { onMounted, onUpdated, ref } from 'vue';
 import { Record } from '@/modules/record'
 import { useRouter } from 'vue-router';
 import EditRecordVue from '@/components/EditRecord.vue';
-import {FilterMatchMode,FilterOperator} from 'primevue/api'
 defineProps<{ title: string }>();
 const recordsStore = useRecordsStore();
 const { records } = storeToRefs(recordsStore);
@@ -78,7 +77,6 @@ onUpdated(()=>{
   loaded=true;}
 })
 onMounted(() => {
-  loading1.value=false;
   recordsStore.load();
   
 });
