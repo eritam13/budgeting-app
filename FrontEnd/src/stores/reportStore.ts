@@ -11,7 +11,7 @@ export const useReportStore = defineStore(`reportStore`, () => {
   let report = ref<Report[]>([]);
   const loadRep = async ()=>{
     let dateS  = s.value.getFullYear().toString();
-                                                                                                      let dateE  = e.value.getFullYear().toString();
+    let dateE  = e.value.getFullYear().toString();
                                                                                                       if(s.value.getMonth().toString().length<2 && s.value.getMonth()!=9)
                                                                                                       {
                                                                                                         dateS = dateS + `-0${s.value.getMonth()+1}`
@@ -89,8 +89,6 @@ export const useReportStore = defineStore(`reportStore`, () => {
                                                                                                       {
                                                                                                         dateE = dateE + `:${e.value.getMinutes()}Z`
                                                                                                       }
-  console.log(dateS);
-  console.log(dateE);
   apiGetReport = useApi<Record[]>(
     `records/report?from=${dateS}&to=${dateE}`
   );

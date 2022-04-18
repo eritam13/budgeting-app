@@ -123,7 +123,13 @@ onMounted (()=>{
 onUpdated(()=>{
   var d=(<HTMLInputElement>document.getElementById("date"));
   if(d.valueAsDate==null)
+<<<<<<< HEAD
   {d.valueAsDate=selectedRecord.date;}
+=======
+  {
+  d.valueAsDate=selectedRecord.date;
+  }
+>>>>>>> 84fae7edaca09a66fd7fd991b23f27846b9af5e7
 });
 
 //  function setDate (){
