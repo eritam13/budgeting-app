@@ -95,7 +95,6 @@ import { ref, Ref } from 'vue';
 import { useRouter } from 'vue-router';
 defineProps<{ title: string }>();
 const record: Ref<Record> = ref({
-
   activity: '',
   time: ``,
   description: '',
@@ -106,8 +105,6 @@ const record: Ref<Record> = ref({
 });
 const { addRecord } = useRecordsStore();
 const router = useRouter();
-
-
 let activityCheck:Ref<boolean>=ref(true);
 let currencyCheck:Ref<boolean>=ref(true);
 let categoryCheck:Ref<boolean>=ref(true);
@@ -124,7 +121,6 @@ const submitForm = () => {
       Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
     );
     addRecord({ ...record.value });
-    
     record.value.activity = '';
     record.value.description = '';
     record.value.currency = '';

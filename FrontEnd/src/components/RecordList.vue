@@ -16,14 +16,15 @@
             Empty
         </div>
         <div v-else>
-        <DataTable :value="recordsFacade">
-          <Column field="activity" header="Activity" />
-          <Column field="description" header="Description" />
-          <Column field="date" header="Date" />
-          <Column field="time" header="Time"/>
-          <Column field="currency" header="Currency"/>
-          <Column field="amount" header="Amount"/>
-          <Column field="category" header="Category"/>
+        <DataTable :value="recordsFacade" :paginator="true"  showGridlines :rows="5" 
+        >
+          <Column field="activity" header="Activity" :sortable="true"/>
+          <Column field="description" header="Description" :sortable="true"/>
+          <Column field="date" header="Date" :sortable="true"/>
+          <Column field="time" header="Time" />
+          <Column field="currency" header="Currency" :sortable="true"/>
+          <Column field="amount" header="Amount" :sortable="true"/>
+          <Column field="category" header="Category" :sortable="true"/>
           <Column>
           <template #body="{ data }">
             <button
@@ -54,21 +55,28 @@
 <script setup lang="ts">
 import {useRecordsStore} from '@/stores/recordsStore';
 import { storeToRefs } from 'pinia';
-import { onMounted } from 'vue';
+import { onMounted, onUpdated, ref } from 'vue';
 import { Record } from '@/modules/record'
 import { useRouter } from 'vue-router';
 import EditRecordVue from '@/components/EditRecord.vue';
-
+import {FilterMatchMode,FilterOperator} from 'primevue/api'
 defineProps<{ title: string }>();
 const recordsStore = useRecordsStore();
 const { records } = storeToRefs(recordsStore);
 const {recordsFacade} = storeToRefs(recordsStore);
 const {deleteRecords,loadInfoById } = useRecordsStore();
 const router = useRouter();
+let loading1=ref(true);
+
+
 const clearRecords = ()=>{
   deleteRecords();
-};
+}
+onUpdated(()=>{
+  recordsStore.load()
+})
 onMounted(() => {
+  loading1.value=false;
   recordsStore.load();
 });
 const edit=(record: Record) => {
