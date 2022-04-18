@@ -19,11 +19,11 @@
         <DataTable :value="records">
           <Column field="activity" header="Activity" />
           <Column field="description" header="Description" />
-          <Column field="date" header="Date" />
+          <Column field="date" header="Date"/>
+          <Column field="time" header="Time"/>
           <Column field="currency" header="Currency"/>
           <Column field="amount" header="Amount"/>
           <Column field="category" header="Category"/>
-          <Column field="time" header="Time"/>
           <Column>
           <template #body="{ data }">
             <button
@@ -72,6 +72,7 @@ const clearRecords = ()=>{
 
 onMounted(() => {
   recordsStore.load();
+  
 });
 
 
