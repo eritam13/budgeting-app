@@ -180,10 +180,12 @@ const getPieChartData = async () => {
   getCSVdata(finalArray);
   CreateBlob(csvArray);
 };
+
 onMounted(() => {
   reportStore.loadReport();
   recordsStore.load();
 });
+let gotReport=0;
 onUpdated(() => {
   var d = <HTMLInputElement>document.getElementById('fromDate');
   var c = <HTMLInputElement>document.getElementById('toDate');
@@ -200,6 +202,13 @@ onUpdated(() => {
       toDate.value.setHours(12);
       c.valueAsDate = toDate.value;
     }
+  }
+  if(gotReport<2)
+  {
+    reportSheet=ref([]);
+    getReport();
+    getPieChartData();
+    gotReport+=1;
   }
 });
 </script>
