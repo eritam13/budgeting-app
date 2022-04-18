@@ -95,7 +95,7 @@
 
 import { Record } from '@/modules/record';
 import { useRecordsStore } from '@/stores/recordsStore';
-import { onMounted, ref, Ref } from 'vue';
+import { onMounted, onUpdated, ref, Ref } from 'vue';
 import { onBeforeRouteUpdate, useRouter } from 'vue-router';
 import {onBeforeMount} from 'vue';
 
@@ -120,7 +120,13 @@ onMounted (()=>{
   var d=(<HTMLInputElement>document.getElementById("date"));
   d.valueAsDate=selectedRecord.date;
 });
-
+onUpdated(()=>{
+  var d=(<HTMLInputElement>document.getElementById("date"));
+  if(d.valueAsDate==null)
+  {
+  d.valueAsDate=selectedRecord.date;
+  }
+});
 
 //  function setDate (){
 //    console.log("ASSASDASDASDADSA");

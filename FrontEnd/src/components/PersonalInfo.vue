@@ -28,10 +28,8 @@
 import {usePersonalInfoStore} from '@/stores/personalInfoStore';
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
-import { ref, Ref } from 'vue';
 import { useRouter } from 'vue-router';
 import EditPersonalInfoVue from '@/components/EditPersonalInfo.vue';
-import { stringify } from 'querystring';
 import { PersonalInfo } from '@/modules/personalinfo'
 
 const personalInfoStore = usePersonalInfoStore();

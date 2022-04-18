@@ -16,14 +16,14 @@
             Empty
         </div>
         <div v-else>
-        <DataTable :value="records">
+        <DataTable :value="recordsFacade">
           <Column field="activity" header="Activity" />
           <Column field="description" header="Description" />
           <Column field="date" header="Date" />
+          <Column field="time" header="Time"/>
           <Column field="currency" header="Currency"/>
           <Column field="amount" header="Amount"/>
           <Column field="category" header="Category"/>
-          <Column field="time" header="Time"/>
           <Column>
           <template #body="{ data }">
             <button
@@ -45,7 +45,6 @@
           </template>
         </Column>
         </DataTable>
-
         </div>
       </ul>
     </div>
@@ -63,24 +62,20 @@ import EditRecordVue from '@/components/EditRecord.vue';
 defineProps<{ title: string }>();
 const recordsStore = useRecordsStore();
 const { records } = storeToRefs(recordsStore);
+const {recordsFacade} = storeToRefs(recordsStore);
 const {deleteRecords,loadInfoById } = useRecordsStore();
 const router = useRouter();
 const clearRecords = ()=>{
   deleteRecords();
 };
-
-
 onMounted(() => {
   recordsStore.load();
 });
-
-
 const edit=(record: Record) => {
   loadInfoById(record.id!)
   router.addRoute({path:'/records/'+record.id,name:'EditRecord',component:EditRecordVue});
   router.push({path:'/records/'+record.id,name:'EditRecord'});
 };
-
 
 const remove = (record: Record) => {
   recordsStore.deleteRecord(record);
