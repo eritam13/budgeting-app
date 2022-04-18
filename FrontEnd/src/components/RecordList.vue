@@ -16,16 +16,6 @@
             Empty
         </div>
         <div v-else>
-<<<<<<< HEAD
-        <DataTable :value="records">
-          <Column field="activity" header="Activity" />
-          <Column field="description" header="Description" />
-          <Column field="date" header="Date"/>
-          <Column field="time" header="Time"/>
-          <Column field="currency" header="Currency"/>
-          <Column field="amount" header="Amount"/>
-          <Column field="category" header="Category"/>
-=======
         <DataTable :value="recordsFacade" :paginator="true"  showGridlines :rows="5" 
         >
           <Column field="activity" header="Activity" :sortable="true"/>
@@ -35,7 +25,6 @@
           <Column field="currency" header="Currency" :sortable="true"/>
           <Column field="amount" header="Amount" :sortable="true"/>
           <Column field="category" header="Category" :sortable="true"/>
->>>>>>> 84fae7edaca09a66fd7fd991b23f27846b9af5e7
           <Column>
           <template #body="{ data }">
             <button
@@ -78,13 +67,15 @@ const {recordsFacade} = storeToRefs(recordsStore);
 const {deleteRecords,loadInfoById } = useRecordsStore();
 const router = useRouter();
 let loading1=ref(true);
-
+let loaded=false;
 
 const clearRecords = ()=>{
   deleteRecords();
 }
 onUpdated(()=>{
-  recordsStore.load()
+  if(loaded=false)
+  {recordsStore.load()
+  loaded=true;}
 })
 onMounted(() => {
   loading1.value=false;
