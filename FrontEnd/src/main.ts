@@ -10,7 +10,7 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import router from './router';
 import VueChartkick from 'vue-chartkick' 
-import 'chartkick/chart.js'
+import {Chart} from 'chart.js'
 import { setApiUrl } from './modules/api';
 const getRuntimeConf = async () => {
   const runtimeConf = await fetch('/config/runtime-config.json');
@@ -19,9 +19,9 @@ const getRuntimeConf = async () => {
 
 getRuntimeConf().then((json) => {
   setApiUrl(json.API_URL);
-
+  
   let app = createApp(App);
-  app.use(VueChartkick);
+  app.use(VueChartkick.use(Chart));
   app.use(PrimeVue);
   app.use(router);
   app.use(createPinia());
