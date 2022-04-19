@@ -10,7 +10,7 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import router from './router';
 import VueChartkick from 'vue-chartkick' 
-import {Chart} from 'chart.js/auto'
+import Chart from 'chart.js/auto'
 
 import {PieController} from 'chart.js'
 import { setApiUrl } from './modules/api';
