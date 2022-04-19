@@ -60,7 +60,6 @@ import { storeToRefs } from 'pinia';
 import { onUpdated, ref, Ref } from 'vue';
 import { onMounted } from 'vue';
 import { Record } from '@/modules/record';
-import 'chartkick/chart.js'
 
 const recordsStore = useRecordsStore();
 const reportStore = useReportStore();
