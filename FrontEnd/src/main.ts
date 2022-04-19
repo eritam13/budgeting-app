@@ -12,7 +12,7 @@ import router from './router';
 import VueChartkick from 'vue-chartkick' 
 //import Chart from 'chart.js/auto'
 import {Chart, registerables} from 'chart.js'
-Chart.register(...registerables);
+
 import { setApiUrl } from './modules/api';
 const getRuntimeConf = async () => {
   const runtimeConf = await fetch('/config/runtime-config.json');
@@ -22,7 +22,9 @@ const getRuntimeConf = async () => {
 getRuntimeConf().then((json) => {
   setApiUrl(json.API_URL);
   let app = createApp(App);
+  Chart.register(...registerables);
   app.use(VueChartkick.use(Chart));
+  Chart.register(...registerables);
   app.use(PrimeVue);
   app.use(router);
   app.use(createPinia());
