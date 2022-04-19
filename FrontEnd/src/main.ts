@@ -19,7 +19,7 @@ const getRuntimeConf = async () => {
 
 getRuntimeConf().then((json) => {
   setApiUrl(json.API_URL);
-
+  
   let app = createApp(App);
   app.use(VueChartkick.use(Chart));
   app.use(PrimeVue);
