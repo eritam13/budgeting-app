@@ -65,20 +65,20 @@ const { records } = storeToRefs(recordsStore);
 const {recordsFacade} = storeToRefs(recordsStore);
 const {deleteRecords,loadInfoById } = useRecordsStore();
 const router = useRouter();
-let load=false;
+let loading1=ref(true);
+let loaded=false;
 
 const clearRecords = ()=>{
   deleteRecords();
 }
 onUpdated(()=>{
-  if(load==false)
-  {
-    recordsStore.load()
-  }
-  load=true;
+  if(loaded=false)
+  {recordsStore.load()
+  loaded=true;}
 })
 onMounted(() => {
   recordsStore.load();
+  
 });
 const edit=(record: Record) => {
   loadInfoById(record.id!)
