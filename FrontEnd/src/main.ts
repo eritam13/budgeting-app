@@ -10,9 +10,9 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import router from './router';
 import VueChartkick from 'vue-chartkick' 
-import Chart from 'chart.js/auto'
-
-import {PieController} from 'chart.js'
+//import Chart from 'chart.js/auto'
+import {Chart, registerables} from 'chart.js'
+Chart.register(...registerables);
 import { setApiUrl } from './modules/api';
 const getRuntimeConf = async () => {
   const runtimeConf = await fetch('/config/runtime-config.json');
