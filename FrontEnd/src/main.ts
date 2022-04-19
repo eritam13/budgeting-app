@@ -11,6 +11,7 @@ import Column from 'primevue/column';
 import router from './router';
 import VueChartkick from 'vue-chartkick' 
 import {Chart} from 'chart.js'
+import {PieController} from 'chart.js'
 import { setApiUrl } from './modules/api';
 const getRuntimeConf = async () => {
   const runtimeConf = await fetch('/config/runtime-config.json');
@@ -22,6 +23,7 @@ getRuntimeConf().then((json) => {
   
   let app = createApp(App);
   app.use(VueChartkick.use(Chart));
+  app.use(VueChartkick.use(PieController));
   app.use(PrimeVue);
   app.use(router);
   app.use(createPinia());
