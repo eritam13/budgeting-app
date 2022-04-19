@@ -52,14 +52,12 @@
 </template>
 
 <script setup lang="ts">
-import 'chartkick/chart.js';
 import { useRecordsStore } from '@/stores/recordsStore';
 import { useReportStore } from '@/stores/reportStore';
 import { storeToRefs } from 'pinia';
 import { onUpdated, ref, Ref } from 'vue';
 import { onMounted } from 'vue';
 import { Record } from '@/modules/record';
-
 
 const recordsStore = useRecordsStore();
 const reportStore = useReportStore();
