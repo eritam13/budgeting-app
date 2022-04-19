@@ -27,6 +27,5 @@ getRuntimeConf().then((json) => {
   app.use(createPinia());
   app.component('DataTable', DataTable);
   app.component('Column', Column);
-
   app.mount('#app');
 });
