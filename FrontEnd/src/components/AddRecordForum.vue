@@ -96,14 +96,15 @@ import { useRouter } from 'vue-router';
 defineProps<{ title: string }>();
 const record: Ref<Record> = ref({
   activity: '',
-  time: ``,
   description: '',
   date: new Date(),
+  time: ``,
   currency: '',
   amount: 0,
   category: ''
 });
 const { addRecord } = useRecordsStore();
+const recordsStore = useRecordsStore();
 const router = useRouter();
 let activityCheck:Ref<boolean>=ref(true);
 let currencyCheck:Ref<boolean>=ref(true);

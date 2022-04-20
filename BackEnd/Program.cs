@@ -24,13 +24,15 @@ var app = builder.Build();
 
 using (var scope = ((IApplicationBuilder)app).ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
 using (var context = scope.ServiceProvider.GetService<DataContext>()) context?.Database.EnsureCreated();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseCors("MyPolicy");
 }
+
+app.UseCors("MyPolicy");
 
 app.UseHttpsRedirection();
 

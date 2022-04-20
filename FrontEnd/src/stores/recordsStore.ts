@@ -3,17 +3,15 @@ import { Record } from '@/modules/record';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import {Ref} from 'vue';
-import {RecordFacade} from '@/modules/recordFacade';
 export const useRecordsStore = defineStore('recordsStore', () => {
   let apiGetRecords = useApi<Record[]>('records');
   let records = ref<Record[]>([]);
-  let recordsFacade = ref<RecordFacade[]>([]);
   let selectedRecord:Ref<Record> = ref<Record>({
         id:'',
         activity: '',
-        time: `${new Date().getHours()}:${new Date().getMinutes()}`,
         description: '',
         date: new Date(),
+        time: `${new Date().getHours()}:${new Date().getMinutes()}`,
         currency: '',
         amount: 0,
         category: ''
@@ -31,26 +29,8 @@ export const useRecordsStore = defineStore('recordsStore', () => {
     }
     return [];
   };
-  const loadFacade = async() =>{
-    recordsFacade.value=[];
-    records.value.forEach(r=>{
-      let newRec:RecordFacade = {
-      id:r.id,
-      activity: r.activity,
-      description: r.description,
-      date: r.date.toString().split("00:00:00")[0],
-      time: r.time,
-      currency: r.currency,
-      amount: r.amount,
-      category: r.category
-      }
-      recordsFacade.value.push(newRec);
-      console.log(newRec)
-    })
-  }
   const load = async () => {
     records.value = await loadRecords();
-    await loadFacade();
     records.value.forEach(function(value:any) {
     });
   };
@@ -64,10 +44,13 @@ export const useRecordsStore = defineStore('recordsStore', () => {
       },
       body: JSON.stringify(record),
     });
+    console.log(JSON.stringify(record));
+    console.log("BBBBBBBBBBBBBBBBBBBBBB")
     await apiAddRecord.request();
     if (apiAddRecord.response.value) {
       records.value.push(apiAddRecord.response.value!);
     }
+    await load();
   };
 
   const updateRecord = async (record1: Record) => {
@@ -80,12 +63,14 @@ export const useRecordsStore = defineStore('recordsStore', () => {
       body: JSON.stringify(record1),
     });
     await apiUpdateRecord.request();
-    if (apiUpdateRecord.response.value) {
-      allRecords.push(apiUpdateRecord.response.value);
+    var c=apiUpdateRecord.response.value;
+    console.log(JSON.stringify(record1));
+    if (c) {
+      allRecords.push(c);
       records.value=allRecords;
-      load();
+      console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
     }
-
+    await load();
   }
 
   const deleteRecord = async (record : Record) =>{
@@ -185,5 +170,5 @@ export const useRecordsStore = defineStore('recordsStore', () => {
     return Math.round(total*100)/100;
   };
 
-  return { records,recordsFacade,selectedRecord, load, addRecord, combineRecords, deleteRecords, deleteRecord, updateRecord,loadInfoById }; 
+  return { records,selectedRecord, load, addRecord, combineRecords, deleteRecords, deleteRecord, updateRecord,loadInfoById }; 
 });
