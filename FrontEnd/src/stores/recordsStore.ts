@@ -11,9 +11,9 @@ export const useRecordsStore = defineStore('recordsStore', () => {
   let selectedRecord:Ref<Record> = ref<Record>({
         id:'',
         activity: '',
-        time: `${new Date().getHours()}:${new Date().getMinutes()}`,
         description: '',
         date: new Date(),
+        time: `${new Date().getHours()}:${new Date().getMinutes()}`,
         currency: '',
         amount: 0,
         category: ''
@@ -45,7 +45,7 @@ export const useRecordsStore = defineStore('recordsStore', () => {
       category: r.category
       }
       recordsFacade.value.push(newRec);
-      console.log(newRec)
+      
     })
   }
   const load = async () => {
@@ -68,9 +68,11 @@ export const useRecordsStore = defineStore('recordsStore', () => {
     if (apiAddRecord.response.value) {
       records.value.push(apiAddRecord.response.value!);
     }
+    await load();
   };
 
   const updateRecord = async (record1: Record) => {
+   
     const apiUpdateRecord = useApi<Record>(`records/${record1.id}`, {
       method: 'PUT',
       headers: {
@@ -79,13 +81,16 @@ export const useRecordsStore = defineStore('recordsStore', () => {
       },
       body: JSON.stringify(record1),
     });
+ 
     await apiUpdateRecord.request();
+    console.log(apiUpdateRecord.response.value+"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
     if (apiUpdateRecord.response.value) {
       allRecords.push(apiUpdateRecord.response.value);
       records.value=allRecords;
-      load();
+      console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
     }
-
+    await load();
+    
   }
 
   const deleteRecord = async (record : Record) =>{

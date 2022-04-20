@@ -55,7 +55,7 @@
 <script setup lang="ts">
 import {useRecordsStore} from '@/stores/recordsStore';
 import { storeToRefs } from 'pinia';
-import { onMounted, onUpdated, ref } from 'vue';
+import { onBeforeMount, onMounted, onUpdated, ref } from 'vue';
 import { Record } from '@/modules/record'
 import { useRouter } from 'vue-router';
 import EditRecordVue from '@/components/EditRecord.vue';
@@ -65,21 +65,21 @@ const { records } = storeToRefs(recordsStore);
 const {recordsFacade} = storeToRefs(recordsStore);
 const {deleteRecords,loadInfoById } = useRecordsStore();
 const router = useRouter();
-let loading1=ref(true);
-let loaded=false;
+let loaded=0;
+
 
 const clearRecords = ()=>{
   deleteRecords();
 }
 onUpdated(()=>{
-  if(loaded=false)
+  if(loaded<1)
   {recordsStore.load()
-  loaded=true;}
+  loaded+=1;}
 })
 onMounted(() => {
   recordsStore.load();
-  
 });
+
 const edit=(record: Record) => {
   loadInfoById(record.id!)
   router.addRoute({path:'/records/'+record.id,name:'EditRecord',component:EditRecordVue});
