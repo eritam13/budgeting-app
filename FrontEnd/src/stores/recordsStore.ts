@@ -3,11 +3,9 @@ import { Record } from '@/modules/record';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import {Ref} from 'vue';
-import {RecordFacade} from '@/modules/recordFacade';
 export const useRecordsStore = defineStore('recordsStore', () => {
   let apiGetRecords = useApi<Record[]>('records');
   let records = ref<Record[]>([]);
-  let recordsFacade = ref<RecordFacade[]>([]);
   let selectedRecord:Ref<Record> = ref<Record>({
         id:'',
         activity: '',
@@ -31,26 +29,8 @@ export const useRecordsStore = defineStore('recordsStore', () => {
     }
     return [];
   };
-  const loadFacade = async() =>{
-    recordsFacade.value=[];
-    records.value.forEach(r=>{
-      let newRec:RecordFacade = {
-      id:r.id,
-      activity: r.activity,
-      description: r.description,
-      date: r.date.toString().split("00:00:00")[0],
-      time: r.time,
-      currency: r.currency,
-      amount: r.amount,
-      category: r.category
-      }
-      recordsFacade.value.push(newRec);
-      
-    })
-  }
   const load = async () => {
     records.value = await loadRecords();
-    await loadFacade();
     records.value.forEach(function(value:any) {
     });
   };
@@ -190,5 +170,5 @@ export const useRecordsStore = defineStore('recordsStore', () => {
     return Math.round(total*100)/100;
   };
 
-  return { records,recordsFacade,selectedRecord, load, addRecord, combineRecords, deleteRecords, deleteRecord, updateRecord,loadInfoById }; 
+  return { records,selectedRecord, load, addRecord, combineRecords, deleteRecords, deleteRecord, updateRecord,loadInfoById }; 
 });
