@@ -1,4 +1,4 @@
-<template>
+<!--<template>
   <nav class="bg-purple-400">
     <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
       <div class="relative flex items-center justify-between h-16">
@@ -42,4 +42,56 @@
     </div>
   </nav>
   <router-view />
+</template>// the old one-->
+
+
+  <template>
+  
+  <Navbar :logo="logo_src" :alt="app_name"/>
+  
+  <router-view/>
+
 </template>
+
+<script>
+import Navbar from './components/Navbar.vue';
+export default {
+  components: {
+    Navbar,
+    
+  },
+  data() {
+    return {
+      logo_src: '@/assets/Wallet.png',
+      app_name: 'BudgetingApp'
+    }
+  }
+}
+</script>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+  html, body {
+    font-family: 'Montserrat', sans-serif;
+  }
+  #app {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #fff ;
+  }
+  * {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .main-container {
+    margin: 50px;
+    min-height: 250px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 42px;
+    margin-bottom: 30px;
+    color: #222;
+  }
+</style>
