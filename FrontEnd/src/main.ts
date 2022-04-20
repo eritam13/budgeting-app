@@ -12,6 +12,7 @@ import router from './router';
 import VueChartkick from 'vue-chartkick' 
 import {Chart} from 'chart.js'
 import { setApiUrl } from './modules/api';
+import Dropdown from 'primevue/dropdown';
 const getRuntimeConf = async () => {
   const runtimeConf = await fetch('/config/runtime-config.json');
   return await runtimeConf.json();
@@ -21,6 +22,7 @@ getRuntimeConf().then((json) => {
   setApiUrl(json.API_URL);
   
   let app = createApp(App);
+  app.component('Dropdown',Dropdown);
   app.use(VueChartkick.use(Chart));
   app.use(PrimeVue);
   app.use(router);

@@ -16,15 +16,22 @@
             Empty
         </div>
         <div v-else>
-        <DataTable :value="recordsFacade" :paginator="true"  showGridlines :rows="5" 
+        <DataTable :value="records" :paginator="true"  showGridlines :rows="5" 
         >
-          <Column field="activity" header="Activity" :sortable="true"/>
+          <Column field="activity"  header="Activity" :sortable="true"/>
           <Column field="description" header="Description" :sortable="true"/>
-          <Column field="date" header="Date" :sortable="true"/>
+          <Column field="date" header="Date" :sortable="true">
+          <template #body="{ data }">
+            {{ data.date.toString().split("00:00:00")[0]}}
+          </template>
+          </Column>
           <Column field="time" header="Time" />
           <Column field="currency" header="Currency" :sortable="true"/>
           <Column field="amount" header="Amount" :sortable="true"/>
-          <Column field="category" header="Category" :sortable="true"/>
+          <Column field="category" header="Category" :sortable="true" >
+  
+
+          </Column>
           <Column>
           <template #body="{ data }">
             <button
@@ -57,16 +64,37 @@ import {useRecordsStore} from '@/stores/recordsStore';
 import { storeToRefs } from 'pinia';
 import { onMounted, onUpdated, ref } from 'vue';
 import { Record } from '@/modules/record'
+
+
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
+import { FilterMatchMode, FilterOperator } from "primevue/api";
 import { useRouter } from 'vue-router';
 import EditRecordVue from '@/components/EditRecord.vue';
 defineProps<{ title: string }>();
+
+
 const recordsStore = useRecordsStore();
 const { records } = storeToRefs(recordsStore);
-const {recordsFacade} = storeToRefs(recordsStore);
 const {deleteRecords,loadInfoById } = useRecordsStore();
 const router = useRouter();
 let loading1=ref(true);
 let loaded=false;
+
+const filters = {
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+        category: { value: null, matchMode: FilterMatchMode.EQUALS },
+      }
+const categories = [
+  {name:'Food & Drink', code: 'FoodDrink'},
+  {name:'Shopping', code: 'Shopping'},
+  {name:'Housing', code: 'Housing'},
+  {name:'Transportation', code: 'Transportation'},
+  {name:'Income', code: 'Income'},
+  {name:'Investments', code: 'Investments'},
+  {name:'Entertainment', code: 'Entertainment'},
+  {name:'Other', code: 'Other'}
+  ]
 
 const clearRecords = ()=>{
   deleteRecords();

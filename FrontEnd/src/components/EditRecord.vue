@@ -96,8 +96,7 @@
 import { Record } from '@/modules/record';
 import { useRecordsStore } from '@/stores/recordsStore';
 import { onMounted, onUpdated, ref, Ref } from 'vue';
-import { onBeforeRouteUpdate, useRouter } from 'vue-router';
-import {onBeforeMount} from 'vue';
+import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const {updateRecord } = useRecordsStore();
