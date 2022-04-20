@@ -44,6 +44,8 @@ export const useRecordsStore = defineStore('recordsStore', () => {
       },
       body: JSON.stringify(record),
     });
+    console.log(JSON.stringify(record));
+    console.log("BBBBBBBBBBBBBBBBBBBBBB")
     await apiAddRecord.request();
     if (apiAddRecord.response.value) {
       records.value.push(apiAddRecord.response.value!);
@@ -52,7 +54,6 @@ export const useRecordsStore = defineStore('recordsStore', () => {
   };
 
   const updateRecord = async (record1: Record) => {
-   
     const apiUpdateRecord = useApi<Record>(`records/${record1.id}`, {
       method: 'PUT',
       headers: {
@@ -61,16 +62,15 @@ export const useRecordsStore = defineStore('recordsStore', () => {
       },
       body: JSON.stringify(record1),
     });
- 
     await apiUpdateRecord.request();
-    console.log(apiUpdateRecord.response.value+"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-    if (apiUpdateRecord.response.value) {
-      allRecords.push(apiUpdateRecord.response.value);
+    var c=apiUpdateRecord.response.value;
+    console.log(JSON.stringify(record1));
+    if (c) {
+      allRecords.push(c);
       records.value=allRecords;
       console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
     }
     await load();
-    
   }
 
   const deleteRecord = async (record : Record) =>{
