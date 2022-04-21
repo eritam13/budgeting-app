@@ -21,15 +21,10 @@ export default function useApi<T>(
 
   const request: ApiRequest = async () => {
     const res = await fetch(apiUrl + url, options);
-    
-    console.log(apiUrl)
-    console.log(url)
-    console.log(options)
     try
     {
-       const data =  res.json();
-       console.log(data)
-       response.value = await data;
+       const data =  await res.json();
+       response.value =  data;
     }
     catch{
      
