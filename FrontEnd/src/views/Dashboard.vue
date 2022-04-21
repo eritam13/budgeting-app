@@ -5,10 +5,10 @@
   <div id="home" class="content">
 
 <!-- Image -->
-<img src="https://png.pngtree.com/thumb_back/fw800/back_our/20190621/ourmid/pngtree-investment-financial-management-financial-background-image_194572.jpg" alt="The Band" style="width:100%">
+<img src="https://torange.biz/photofxnew/172/HD/dollars-desktop-wallpaper-digital-matrix-style-background-172051.jpg" alt="The Band" class="cropped" >
 
   <div class="center">
-    <button class="btn "><router-link to="/recordlist">Record List</router-link></button>
+    <button class="btn"><router-link to="/recordlist">Record List</router-link></button>
   </div>
 
 <!-- End Content -->
@@ -17,6 +17,12 @@
 
 </template>
 <style>
+.cropped {
+width: 3000px; 
+height: 879px; 
+overflow: hidden;
+border: 5px solid black;
+}
 .btn {
   border: 2px solid black;
   background-color: rgb(169, 209, 247);

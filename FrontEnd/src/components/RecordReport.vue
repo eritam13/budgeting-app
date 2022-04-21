@@ -15,6 +15,7 @@
       <input type="date" id="toDate" name="date" v-model="toDate" />
       <input type="time" id="appt" name="appt" v-model="toTime" />
       <div></div>
+
       <div class="mt-8 space-y-6">
         <div class="rounded-md shadow-sm -space-y-px">
           <button
@@ -26,7 +27,12 @@
             Get Report
           </button>
         </div>
-        <h2 class="a" >Total: {{ totalSpent }}$</h2>
+        <div v-if="0<=totalSpent">
+          <h2 class="a" >Total: {{ totalSpent }}$</h2>
+        </div>
+        <div v-if="0>totalSpent">
+          <h2 class="b" >Total: {{ totalSpent }}$</h2>
+        </div>
         <div v-if="reportCheck == false">
           <li v-for="r in report" :key="r.category">
             <span class="c" v-if="r.category == 'FoodDrinks'">
@@ -38,7 +44,7 @@
               <p v-if="rp.category == r.category">
                 <p class="a" >
                   <dd>
-                    Date: {{rp.date.toString().split("00:00:00")[0] }} {{ rp.time }} Amount: {{ rp.amount+rp.currency}}
+                    Date: {{rp.date.toString().split("00:00:00")[0] }} {{ rp.time }} Amount: {{ rp.amount+" "+rp.currency}}
                   </dd>
                 </p>
               </p>
@@ -74,6 +80,7 @@ const { records } = storeToRefs(recordsStore);
 const { report } = storeToRefs(reportStore);
 const { s } = storeToRefs(reportStore);
 const { e } = storeToRefs(reportStore);
+let isDollar:Ref<boolean> = ref(true)
 let fromDate: Ref<Date> = s;
 let toDate: Ref<Date> = e;
 let fromTime: Ref<string> = ref('00:00');
@@ -108,16 +115,19 @@ const getReport = async () => {
   e.value = t;
   reportStore.loadReport();
   totalSpent.value = 0;
-  var combine = async () => {
-    let result = await recordsStore.combineRecords(
-      f,
-      t,
-    );
-    return result;
-  };
-  
-  if ((reportCheck.value = true)) {
-    totalSpent.value += await combine();
+  if(isDollar.value==true)
+  {
+    var combineUSD = async () => {
+      let result = await recordsStore.combineRecordsUSD(
+        f,
+        t
+      );
+      return result;
+    };
+    
+    if ((reportCheck.value = true)) {
+      totalSpent.value += await combineUSD();
+    }
   }
   getPieChartData();
   reportCheck.value = false;
@@ -193,23 +203,15 @@ const getPieChartData = async () => {
   CreateBlob(csvArray);
 };
 
-<<<<<<< HEAD
-=======
 watch(finalArr, ()=>{
   getReport();
 });
->>>>>>> 1340681347de407c0c854ab7e9a18a9e3c6c03f6
-
 
 onMounted(() => {
   recordsStore.load();
   reportStore.loadReport();
 });
 
-<<<<<<< HEAD
-=======
-let gotReport=0;
->>>>>>> 1340681347de407c0c854ab7e9a18a9e3c6c03f6
 onUpdated(() => {
   var d = <HTMLInputElement>document.getElementById('fromDate');
   var c = <HTMLInputElement>document.getElementById('toDate');
@@ -250,6 +252,14 @@ h2.a{
   font-weight: bold;
   font-style: oblique;
   font-size: 150%;
+  color:green
+}
+h2.b{
+  text-align:center;
+  font-weight: bold;
+  font-style: oblique;
+  font-size: 150%;
+  color:red
 }
 p.a{
   border-radius: 10px; 

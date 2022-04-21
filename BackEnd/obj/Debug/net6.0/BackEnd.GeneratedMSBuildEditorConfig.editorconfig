@@ -8,18 +8,9 @@ build_property.PlatformNeutralAssembly =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = BackEnd
 build_property.RootNamespace = BackEnd
-<<<<<<< HEAD
 build_property.ProjectDir = c:\Users\Professional\Desktop\projektISA4\2022-itb1704-isa4\BackEnd\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
 build_property.MSBuildProjectDirectory = c:\Users\Professional\Desktop\projektISA4\2022-itb1704-isa4\BackEnd
 build_property._RazorSourceGeneratorDebug =
-=======
-build_property.ProjectDir = C:\C_PROJECTS\2022-itb1704-isa4\BackEnd\
-build_property.RazorLangVersion = 6.0
-build_property.SupportLocalizedComponentNames = 
-build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\C_PROJECTS\2022-itb1704-isa4\BackEnd
-build_property._RazorSourceGeneratorDebug = 
->>>>>>> 1340681347de407c0c854ab7e9a18a9e3c6c03f6

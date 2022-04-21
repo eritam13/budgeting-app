@@ -128,7 +128,7 @@ const submitForm = () => {
     record.value.amount = 0;
     record.value.category = '';
     record.value.date=new Date();
-    router.push({ name: 'Dashboard' });
+    router.push({ name: 'RecordList' });
   }
 };
 </script>

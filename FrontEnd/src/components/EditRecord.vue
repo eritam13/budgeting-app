@@ -127,10 +127,6 @@ onUpdated(()=>{
   }
 });
 
-//  function setDate (){
-//    console.log("ASSASDASDASDADSA");
-//   (<HTMLInputElement>document.getElementById("date")).value=selectedRecord.date.toDateString()
-// };
 
 
 let activityCheck:Ref<boolean>=ref(true);

@@ -44,8 +44,6 @@ export const useRecordsStore = defineStore('recordsStore', () => {
       },
       body: JSON.stringify(record),
     });
-    console.log(JSON.stringify(record));
-    console.log("BBBBBBBBBBBBBBBBBBBBBB")
     await apiAddRecord.request();
     if (apiAddRecord.response.value) {
       records.value.push(apiAddRecord.response.value!);
@@ -64,11 +62,10 @@ export const useRecordsStore = defineStore('recordsStore', () => {
     });
     await apiUpdateRecord.request();
     var c=apiUpdateRecord.response.value;
-    console.log(JSON.stringify(record1));
     if (c) {
       allRecords.push(c);
       records.value=allRecords;
-      console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
+
     }
     await load();
   }
@@ -134,7 +131,7 @@ export const useRecordsStore = defineStore('recordsStore', () => {
   };
 
 
-  const combineRecords = async(from:Date,to:Date):Promise<number>=>{
+  const combineRecordsUSD = async(from:Date,to:Date):Promise<number>=>{
      const hours1 = from.getHours();
      const minutes1 = from.getMinutes();
      const hours2 = to.getHours();
@@ -147,7 +144,6 @@ export const useRecordsStore = defineStore('recordsStore', () => {
               from.setMinutes(minutes1);
               to.setHours(hours2);
               to.setMinutes(minutes2);
-              console.log(to);
               records.value.forEach(record =>{
               const d = new Date(record.date.getFullYear(),record.date.getMonth(),record.date.getDate(),parseInt(record.time.split(":")[0]),parseInt(record.time.split(":")[1]))
               
@@ -174,11 +170,12 @@ export const useRecordsStore = defineStore('recordsStore', () => {
                   }
                 };  
               }  
-    })
-    return Math.round(total*100)/100;
+    });
+        return Math.round((total+Number.EPSILON)*100)/100;
     }
     return Math.round(total*100)/100;
   };
 
-  return { records,selectedRecord, load, addRecord, combineRecords, deleteRecords, deleteRecord, updateRecord,loadInfoById }; 
+
+  return { records,selectedRecord, load, addRecord, combineRecordsUSD, deleteRecords, deleteRecord, updateRecord,loadInfoById }; 
 });
