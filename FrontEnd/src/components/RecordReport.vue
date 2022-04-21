@@ -129,6 +129,7 @@ const getReport = async () => {
       totalSpent.value += await combineUSD();
     }
   }
+  
   getPieChartData();
   reportCheck.value = false;
   reportSheet.value = [];

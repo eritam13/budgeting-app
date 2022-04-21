@@ -16,16 +16,15 @@ export const useReportStore = defineStore(`reportStore`, () => {
     {
       dateS = dateS + `-0${s.value.getMonth()+1}`
     }
-    if(e.value.getMonth().toString().length<2 && s.value.getMonth()!=9)
+    if(e.value.getMonth().toString().length<2 && e.value.getMonth()!=9)
     {
       dateE = dateE + `-0${e.value.getMonth()+1}`
     }
-
     if(s.value.getMonth().toString().length==2 || s.value.getMonth()==9)
     {
       dateS = dateS + `-${s.value.getMonth()+1}`
     }
-    if(e.value.getMonth().toString().length==2 || s.value.getMonth()==9)
+    if(e.value.getMonth().toString().length==2 || e.value.getMonth()==9)
     {
       dateE = dateE + `-${e.value.getMonth()+1}`
     }
