@@ -73,10 +73,11 @@ export default {
   @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
   html, body {
     font-family: 'Montserrat', sans-serif;
+    background-color:#fff;
   }
   #app {
     font-family: 'Montserrat', sans-serif;
-    background-color: #fff ;
+    background-color:#fff ;
   }
   * {
     font-family: 'Montserrat', sans-serif;
