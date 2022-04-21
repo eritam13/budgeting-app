@@ -1,7 +1,7 @@
 <template>
-   <div class="bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="text-center bg-gray-50">
-       <div class="card">
+   <div class="bg-white py-12 px-4 sm:px-6 lg:px-8">
+    <div class="text-center">
+
       <h1 class="font-bold">{{ title }}</h1>
       <ul>
         <button
@@ -62,7 +62,7 @@
 <script setup lang="ts">
 import {useRecordsStore} from '@/stores/recordsStore';
 import { storeToRefs } from 'pinia';
-import { onMounted, onUpdated, ref } from 'vue';
+import { onBeforeMount, onMounted, onUpdated, ref } from 'vue';
 import { Record } from '@/modules/record'
 
 
@@ -78,8 +78,8 @@ const recordsStore = useRecordsStore();
 const { records } = storeToRefs(recordsStore);
 const {deleteRecords,loadInfoById } = useRecordsStore();
 const router = useRouter();
-let loading1=ref(true);
-let loaded=false;
+let loaded=0;
+
 
 const filters = ref({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -100,14 +100,14 @@ const clearRecords = ()=>{
   deleteRecords();
 }
 onUpdated(()=>{
-  if(loaded=false)
+  if(loaded<1)
   {recordsStore.load()
-  loaded=true;}
+  loaded+=1;}
 })
 onMounted(() => {
   recordsStore.load();
-  
 });
+
 const edit=(record: Record) => {
   loadInfoById(record.id!)
   router.addRoute({path:'/records/'+record.id,name:'EditRecord',component:EditRecordVue});

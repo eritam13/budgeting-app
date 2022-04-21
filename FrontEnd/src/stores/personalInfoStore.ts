@@ -70,7 +70,7 @@ export const usePersonalInfoStore = defineStore('personalInfoStore', () => {
       personalInfo.value=allInfo;
       load();
     }
-    
+    await load();
   }
 
   return {personalInfo,selectedPersonalInfo, load, updatePersonalInfo, loadInfoById};

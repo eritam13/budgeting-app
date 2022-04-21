@@ -2,7 +2,6 @@
    <div class="bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
     <div class="text-center bg-gray-50">
         <DataTable :value="personalInfo">
-          <Column field="id" header="Id" />
           <Column field="name" header="Name" />
           <Column field="surname" header="Surname" />
           <Column field="birthday" header="Birthday" />

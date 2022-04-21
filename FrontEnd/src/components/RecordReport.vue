@@ -66,6 +66,7 @@ import { storeToRefs } from 'pinia';
 import { onUpdated, ref, Ref } from 'vue';
 import { onMounted } from 'vue';
 import { Record } from '@/modules/record';
+import { watch } from 'vue';
 
 const recordsStore = useRecordsStore();
 const reportStore = useReportStore();
@@ -192,6 +193,12 @@ const getPieChartData = async () => {
   CreateBlob(csvArray);
 };
 
+<<<<<<< HEAD
+=======
+watch(finalArr, ()=>{
+  getReport();
+});
+>>>>>>> 1340681347de407c0c854ab7e9a18a9e3c6c03f6
 
 
 onMounted(() => {
@@ -199,6 +206,10 @@ onMounted(() => {
   reportStore.loadReport();
 });
 
+<<<<<<< HEAD
+=======
+let gotReport=0;
+>>>>>>> 1340681347de407c0c854ab7e9a18a9e3c6c03f6
 onUpdated(() => {
   var d = <HTMLInputElement>document.getElementById('fromDate');
   var c = <HTMLInputElement>document.getElementById('toDate');
