@@ -1,6 +1,7 @@
 
 <template>
 <nav>
+<<<<<<< HEAD
   <RecordList title="Record List"/>
   <div id="home" class="content">
 
@@ -13,10 +14,14 @@
 
 <!-- End Content -->
 </div>
+=======
+ 
+>>>>>>> 487a31b127f03e081d6f2ae65a4906ee2c67de15
 </nav>
 
 </template>
 <style>
+<<<<<<< HEAD
 .cropped {
 width: 3000px; 
 height: 879px; 
@@ -33,15 +38,9 @@ border: 5px solid black;
    border-color: #000102;
   color: rgb(1, 4, 7)
 }
+=======
+>>>>>>> 487a31b127f03e081d6f2ae65a4906ee2c67de15
 
-.center {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
 </style>
 
 <script setup lang="ts">

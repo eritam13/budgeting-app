@@ -11,7 +11,6 @@ import Column from 'primevue/column';
 import router from './router';
 import VueChartkick from 'vue-chartkick' 
 import Chart from 'chart.js/auto'
-import VirtualScroller from 'primevue/virtualscroller';
 //import {Chart, registerables} from 'chart.js'
 
 import { setApiUrl } from './modules/api';
@@ -24,7 +23,6 @@ const getRuntimeConf = async () => {
 getRuntimeConf().then((json) => {
   setApiUrl(json.API_URL);
   let app = createApp(App);
-  app.component('VirtualScroller',VirtualScroller);
   app.component('Dropdown',Dropdown);
   app.use(VueChartkick.use(Chart));
   app.use(PrimeVue);

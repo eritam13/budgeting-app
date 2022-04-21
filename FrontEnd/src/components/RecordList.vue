@@ -15,21 +15,25 @@
             Empty
         </div>
         <div v-else>
+<<<<<<< HEAD
+        <DataTable :value="recordsFacade" :paginator="true"  showGridlines :rows="5" 
+=======
           
         <DataTable :value="records" :paginator="true"  showGridlines :rows="5" 
+>>>>>>> 1afaa1c9a5735018b187c4ecb01518eb4bf5bb0d
         >
-          <Column field="activity"  header="Activity" :sortable="true"/>
+          <Column field="activity" header="Activity" :sortable="true"/>
           <Column field="description" header="Description" :sortable="true"/>
-          <Column field="date" header="Date" :sortable="true">
-          <template #body="{ data }">
-            {{ data.date.toString().split("00:00:00")[0]}}
-          </template>
-          </Column>
+          <Column field="date" header="Date" :sortable="true"/>
           <Column field="time" header="Time" />
           <Column field="currency" header="Currency" :sortable="true"/>
           <Column field="amount" header="Amount" :sortable="true"/>
+<<<<<<< HEAD
+          <Column field="category" header="Category" :sortable="true"/>
+=======
           <Column field="category" header="Category" :sortable="true" >
          </Column>
+>>>>>>> 1afaa1c9a5735018b187c4ecb01518eb4bf5bb0d
           <Column>
           <template #body="{ data }">
             <button
@@ -60,25 +64,22 @@
 <script setup lang="ts">
 import {useRecordsStore} from '@/stores/recordsStore';
 import { storeToRefs } from 'pinia';
-import { onBeforeMount, onMounted, onUpdated, ref } from 'vue';
+import { onMounted, onUpdated, ref } from 'vue';
 import { Record } from '@/modules/record'
-
-
-import DataTable from "primevue/datatable";
-import Column from "primevue/column";
-import { FilterMatchMode, FilterOperator } from "primevue/api";
 import { useRouter } from 'vue-router';
 import EditRecordVue from '@/components/EditRecord.vue';
+import {FilterMatchMode,FilterOperator} from 'primevue/api'
 defineProps<{ title: string }>();
-
-
 const recordsStore = useRecordsStore();
 const { records } = storeToRefs(recordsStore);
+const {recordsFacade} = storeToRefs(recordsStore);
 const {deleteRecords,loadInfoById } = useRecordsStore();
 const router = useRouter();
-let loaded=0;
+let loading1=ref(true);
 
 
+<<<<<<< HEAD
+=======
 const filters = ref({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
         category: { value: null, matchMode: FilterMatchMode.EQUALS },
@@ -94,18 +95,17 @@ const categories =ref( [
   {name:'Other', code: 'Other'}
   ])
 const categoriess = ['FoodDrink','Shopping','Housing','Transportation','Income','Investments','Entertainment','Other']
+>>>>>>> 1afaa1c9a5735018b187c4ecb01518eb4bf5bb0d
 const clearRecords = ()=>{
   deleteRecords();
 }
 onUpdated(()=>{
-  if(loaded<1)
-  {recordsStore.load()
-  loaded+=1;}
+  recordsStore.load()
 })
 onMounted(() => {
+  loading1.value=false;
   recordsStore.load();
 });
-
 const edit=(record: Record) => {
   loadInfoById(record.id!)
   router.addRoute({path:'/records/'+record.id,name:'EditRecord',component:EditRecordVue});

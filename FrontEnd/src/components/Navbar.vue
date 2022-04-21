@@ -6,6 +6,7 @@
         <router-link to="/">Home</router-link> 
         <router-link to="/addrecord">Add Record</router-link> 
         <router-link to="/report">Report</router-link>
+        <router-link to ="/recordlist">Record List</router-link>
         <router-link to="/personalinfo">Personal Info</router-link>
     </div>
 </template>
