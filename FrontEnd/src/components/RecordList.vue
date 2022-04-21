@@ -16,7 +16,12 @@
             Empty
         </div>
         <div v-else>
+<<<<<<< HEAD
         <DataTable :value="recordsFacade" :paginator="true"  showGridlines :rows="5" 
+=======
+          
+        <DataTable :value="records" :paginator="true"  showGridlines :rows="5" 
+>>>>>>> 1afaa1c9a5735018b187c4ecb01518eb4bf5bb0d
         >
           <Column field="activity" header="Activity" :sortable="true"/>
           <Column field="description" header="Description" :sortable="true"/>
@@ -24,7 +29,12 @@
           <Column field="time" header="Time" />
           <Column field="currency" header="Currency" :sortable="true"/>
           <Column field="amount" header="Amount" :sortable="true"/>
+<<<<<<< HEAD
           <Column field="category" header="Category" :sortable="true"/>
+=======
+          <Column field="category" header="Category" :sortable="true" >
+         </Column>
+>>>>>>> 1afaa1c9a5735018b187c4ecb01518eb4bf5bb0d
           <Column>
           <template #body="{ data }">
             <button
@@ -48,6 +58,7 @@
         </DataTable>
         </div>
       </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -69,6 +80,24 @@ const router = useRouter();
 let loading1=ref(true);
 
 
+<<<<<<< HEAD
+=======
+const filters = ref({
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+        category: { value: null, matchMode: FilterMatchMode.EQUALS },
+      })
+const categories =ref( [
+  {name:'Food & Drink', code: 'FoodDrink'},
+  {name:'Shopping', code: 'Shopping'},
+  {name:'Housing', code: 'Housing'},
+  {name:'Transportation', code: 'Transportation'},
+  {name:'Income', code: 'Income'},
+  {name:'Investments', code: 'Investments'},
+  {name:'Entertainment', code: 'Entertainment'},
+  {name:'Other', code: 'Other'}
+  ])
+const categoriess = ['FoodDrink','Shopping','Housing','Transportation','Income','Investments','Entertainment','Other']
+>>>>>>> 1afaa1c9a5735018b187c4ecb01518eb4bf5bb0d
 const clearRecords = ()=>{
   deleteRecords();
 }

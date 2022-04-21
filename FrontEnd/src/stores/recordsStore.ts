@@ -135,12 +135,22 @@ export const useRecordsStore = defineStore('recordsStore', () => {
 
 
   const combineRecords = async(from:Date,to:Date):Promise<number>=>{
+     const hours1 = from.getHours();
+     const minutes1 = from.getMinutes();
+     const hours2 = to.getHours();
+     const minutes2 = to.getMinutes();
      records.value= await loadRecords();
      let total:number=0;
      if(records.value)
      {
+              from.setHours(hours1);
+              from.setMinutes(minutes1);
+              to.setHours(hours2);
+              to.setMinutes(minutes2);
+              console.log(to);
               records.value.forEach(record =>{
               const d = new Date(record.date.getFullYear(),record.date.getMonth(),record.date.getDate(),parseInt(record.time.split(":")[0]),parseInt(record.time.split(":")[1]))
+              
               if(d>=from && d<=to)  
               {
                 if(record.currency.toString() === 'EUR')

@@ -1,8 +1,11 @@
 
 <template>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <div
     class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
   >
+  
     <div class="max-w-md w-full space-y-8">
       <label for="from">FROM---</label>
       <input type="date" id="fromDate" name="date" v-model="fromDate" />
@@ -23,31 +26,34 @@
             Get Report
           </button>
         </div>
-        <h2>Total: {{ totalSpent }}$</h2>
+        <h2 class="a" >Total: {{ totalSpent }}$</h2>
         <div v-if="reportCheck == false">
           <li v-for="r in report" :key="r.category">
-            <span v-if="r.category == 'FoodDrinks'">
+            <span class="c" v-if="r.category == 'FoodDrinks'">
               Food & Drinks - {{ r.amount }}$
             </span>
-            <span v-else> {{ r.category }} - {{ r.amount }}$ </span>
+            <span class="c" v-else> {{ r.category }} - {{ r.amount }}$ </span>
             <dd></dd>
             <span v-for="rp in reportSheet" :key="r.category">
-              <div v-if="rp.category == r.category">
-                <div>
-                  Activity: {{ rp.activity }} | Description:
-                  {{ rp.description }} | Amount: {{ rp.amount }} | Date:
-                  {{ rp.date.toString().split("00:00:00")[0] }} | Time: {{ rp.time }}
-                </div>
-              </div>
+              <p v-if="rp.category == r.category">
+                <p class="a" >
+                  <dd>
+                    Date: {{rp.date.toString().split("00:00:00")[0] }} {{ rp.time }} Amount: {{ rp.amount+rp.currency}}
+                  </dd>
+                </p>
+              </p>
             </span>
             <dd></dd>
+            <br>
           </li>
-          <div v-if="records.length > 0">
+          <div v-if="reportSheet.length > 0">
             <pie-chart :data="finalArr"></pie-chart>
           </div>
         </div>
-        
-        <a id="reportID" hidden download="report.csv">Download your report</a>
+        <dd></dd>
+        <dd></dd>
+        <dd></dd>
+            <a id="reportID" class="btn" hidden download="report.csv"><i class="fa fa-download"></i>Download your report</a>
       </div>
     </div>
   </div>
@@ -60,6 +66,7 @@ import { storeToRefs } from 'pinia';
 import { onUpdated, ref, Ref } from 'vue';
 import { onMounted } from 'vue';
 import { Record } from '@/modules/record';
+import { watch } from 'vue';
 
 const recordsStore = useRecordsStore();
 const reportStore = useReportStore();
@@ -75,13 +82,14 @@ let finalArr: Ref<(string | number | String)[][]> = ref([]);
 let reportCheck: Ref<boolean> = ref(true);
 let totalSpent: Ref<number> = ref(0);
 let reportSheet: Ref<Record[]> = ref([]);
+let recordData: Ref<Record[]> = ref([])
 let csvArray: (string | number | String)[][] = [];
 let BlobURL: Ref<string> = ref('');
 const categories = ['FoodDrinks','Shopping','Housing','Transportation','Income','Investments','Entertainment','Other'];
 
 const getReport = async () => {
   const date1: Date = new Date(fromDate.value);
-  fromDate.value = new Date(
+  let f = new Date(
     date1.getFullYear(),
     date1.getMonth(),
     date1.getDate(),
@@ -89,24 +97,25 @@ const getReport = async () => {
     parseInt(fromTime.value.split(':')[1]),
   );
   const date2: Date = new Date(toDate.value);
-  toDate.value = new Date(
+  let t = new Date(
     date2.getFullYear(),
     date2.getMonth(),
     date2.getDate(),
     parseInt(toTime.value.split(':')[0]),
     parseInt(toTime.value.split(':')[1]),
   );
-  s.value = fromDate.value;
-  e.value = toDate.value;
+  s.value = f;
+  e.value = t;
   reportStore.loadReport();
   totalSpent.value = 0;
   var combine = async () => {
     let result = await recordsStore.combineRecords(
-      fromDate.value,
-      toDate.value,
+      f,
+      t,
     );
     return result;
   };
+  
   if ((reportCheck.value = true)) {
     totalSpent.value += await combine();
   }
@@ -144,16 +153,15 @@ const getCSVdata = async (ar: (string | number | String)[][]) => {
     categories.forEach((gr)=>{
     csvArray.push([gr +":"]);
     reportSheet.value.forEach((r)=>{
-      console.log(gr==r.category)
       if(gr==r.category)
       {
-      console.log(r.time);
       csvArray.push([r.activity,r.description,r.amount,r.currency,r.date.toString().split("00:00:00")[0],r.time])
       }
     })
     csvArray.push([""])
   })
 };
+
 function MakeCSVrows(rows) {
   return rows.map((r) => r.join(',')).join('\r\n');
 }
@@ -166,6 +174,9 @@ function CreateBlob(data) {
   reportID.setAttribute('href', URL.createObjectURL(blob));
   BlobURL.value = URL.createObjectURL(blob);
 }
+
+
+
 const getPieChartData = async () => {
   reportStore.loadReport();
   let finalArray: (string | number | String)[][] = [];
@@ -182,11 +193,23 @@ const getPieChartData = async () => {
   CreateBlob(csvArray);
 };
 
-onMounted(() => {
-  reportStore.loadReport();
-  recordsStore.load();
+<<<<<<< HEAD
+=======
+watch(finalArr, ()=>{
+  getReport();
 });
+>>>>>>> 1340681347de407c0c854ab7e9a18a9e3c6c03f6
+
+
+onMounted(() => {
+  recordsStore.load();
+  reportStore.loadReport();
+});
+
+<<<<<<< HEAD
+=======
 let gotReport=0;
+>>>>>>> 1340681347de407c0c854ab7e9a18a9e3c6c03f6
 onUpdated(() => {
   var d = <HTMLInputElement>document.getElementById('fromDate');
   var c = <HTMLInputElement>document.getElementById('toDate');
@@ -197,19 +220,39 @@ onUpdated(() => {
       d.valueAsDate = fromDate.value;
     }
   }
-  if(fromDate.value.toString().length>11)
+  if(toDate.value.toString().length>11)
   {
     if (c.valueAsDate == null && toDate.value.getFullYear() < 2500) {
       toDate.value.setHours(12);
       c.valueAsDate = toDate.value;
     }
   }
-  if(gotReport<2)
-  {
-    reportSheet=ref([]);
-    getReport();
-    getPieChartData();
-    gotReport+=1;
-  }
 });
+
 </script>
+<style>
+.btn {
+  background-color: DodgerBlue;
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  cursor: pointer;
+  font-size: 20px;
+}
+.btn:hover {
+  background-color: RoyalBlue;
+}
+span.c {
+  font-style: oblique;
+}
+h2.a{
+  text-align:center;
+  font-weight: bold;
+  font-style: oblique;
+  font-size: 150%;
+}
+p.a{
+  border-radius: 10px; 
+  border: 1px solid black;
+}
+</style>
