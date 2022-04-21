@@ -144,7 +144,7 @@ const submitForm = async () => {
     record.value.date = new Date(
     Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
     updateRecord({...record.value});
-    router.push({ name: 'Dashboard' });
+    router.push({ name: 'RecordList' });
   }
 };
 
