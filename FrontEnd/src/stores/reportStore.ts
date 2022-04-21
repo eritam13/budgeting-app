@@ -4,7 +4,7 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { Report } from '@/modules/report';
 let s =ref(<Date>new Date(1000,0,1,0,0));
-let e = ref(<Date>new Date(9999,11,31,23,59));
+let e = ref(<Date>new Date(9998,11,31,23,59));
 
 export const useReportStore = defineStore(`reportStore`, () => {
   let apiGetReport=useApi<Record[]>('');

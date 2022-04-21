@@ -1,7 +1,7 @@
 <template>
    <div class="bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
     <div class="text-center bg-gray-50">
-
+       <div class="card">
       <h1 class="font-bold">{{ title }}</h1>
       <ul>
         <button
@@ -16,6 +16,7 @@
             Empty
         </div>
         <div v-else>
+          
         <DataTable :value="records" :paginator="true"  showGridlines :rows="5" 
         >
           <Column field="activity"  header="Activity" :sortable="true"/>
@@ -29,9 +30,7 @@
           <Column field="currency" header="Currency" :sortable="true"/>
           <Column field="amount" header="Amount" :sortable="true"/>
           <Column field="category" header="Category" :sortable="true" >
-  
-
-          </Column>
+         </Column>
           <Column>
           <template #body="{ data }">
             <button
@@ -55,6 +54,7 @@
         </DataTable>
         </div>
       </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -81,11 +81,11 @@ const router = useRouter();
 let loading1=ref(true);
 let loaded=false;
 
-const filters = {
+const filters = ref({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
         category: { value: null, matchMode: FilterMatchMode.EQUALS },
-      }
-const categories = [
+      })
+const categories =ref( [
   {name:'Food & Drink', code: 'FoodDrink'},
   {name:'Shopping', code: 'Shopping'},
   {name:'Housing', code: 'Housing'},
@@ -94,8 +94,8 @@ const categories = [
   {name:'Investments', code: 'Investments'},
   {name:'Entertainment', code: 'Entertainment'},
   {name:'Other', code: 'Other'}
-  ]
-
+  ])
+const categoriess = ['FoodDrink','Shopping','Housing','Transportation','Income','Investments','Entertainment','Other']
 const clearRecords = ()=>{
   deleteRecords();
 }

@@ -147,7 +147,6 @@ const submitForm = async () => {
     const date: Date = new Date(record.value.date);
     record.value.date = new Date(
     Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-    console.log(record.value);
     updateRecord({...record.value});
     router.push({ name: 'Dashboard' });
   }
