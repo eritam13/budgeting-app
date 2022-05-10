@@ -59,7 +59,7 @@
         <dd></dd>
         <dd></dd>
         <dd></dd>
-            <a id="reportID" class="btn" hidden download="report.csv"><i class="fa fa-download"></i>Download your report</a>
+            <a id="reportID" class="btn"  hidden download="report.csv"><i class="fa fa-download"></i>Download your report</a>
       </div>
     </div>
   </div>
@@ -235,15 +235,19 @@ onUpdated(() => {
 </script>
 <style>
 .btn {
-  background-color: DodgerBlue;
+  background-color: rgb(7, 106, 204);
   border: none;
-  color: white;
-  padding: 12px 30px;
+  color: rgb(255, 255, 255);
+  padding: 10px;
+  width: auto;
+  border-radius: 5px;
+  position: fixed;
+  bottom: 5%;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 16px;
 }
 .btn:hover {
-  background-color: RoyalBlue;
+  background-color: rgb(0, 80, 180);
 }
 span.c {
   font-style: oblique;

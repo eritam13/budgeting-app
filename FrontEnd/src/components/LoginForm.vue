@@ -39,7 +39,7 @@
       <p v-if="showError" class="text-red-400">
         Wrong Username or Password
       </p>
-      <p><button @click="register">register here</button></p>
+      <p><button @click="register" class="focus:ring-indigo-500  py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" >register here</button></p>
     </div>
   </div>
 </template>

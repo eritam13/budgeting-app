@@ -39,7 +39,7 @@
       <p v-if="showError" class="text-red-400">
         Username already exists
       </p>
-      <button @click="returnToLogin">
+      <button @click="returnToLogin" class="focus:ring-indigo-500  py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
         return to login
       </button>
     </div>

@@ -3,12 +3,11 @@
   <router-link to="/recordList">
       <img src="@/assets/Wallet.png" alt="Logo" width="600" height="60">
     </router-link>
-    
     <router-link
       to="/recordlist"
       class="text-black hover:bg-green-600 hover:text-white px-4 py-2 rounded-md text-sm font-medium"
-      
-      active-class="bg-gray-500 text-white"
+      style=" margin-top: 10px; margin-bottom: 10px;"
+      active-class="bg-green-500 text-white"
       aria-current="page"
       >Dashboard</router-link
     >
@@ -16,18 +15,21 @@
       to="/addrecord"
       class="text-black hover:bg-gray-400 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
       active-class="bg-gray-500 text-white"
+      style="margin-top: 10px; margin-bottom: 10px;"
       >Add record</router-link
     >
     <router-link
       to="/report"
       class="text-black hover:bg-gray-400  hover:text-white px-3 py-2 rounded-md text-sm font-medium"
       active-class="bg-gray-500 text-white"
+      style="margin-top: 10px; margin-bottom: 10px;"
       >Report</router-link
     >
     <router-link
       to="/personalinfo"
       class="text-black hover:bg-gray-400  hover:text-white px-3 py-2 rounded-md text-sm font-medium"
       active-class="bg-gray-500 text-white"
+      style="margin-top: 10px; margin-bottom: 10px;"
       >Personal Info</router-link
     >
     <button
@@ -40,7 +42,7 @@
     bottom:0;"
     @click="signOut"
   >
-  Logi välja
+  Log out
 </button>
   </div>
   <router-view />
@@ -67,6 +69,7 @@ const signOut = () => {
 
 <style>
   /* @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap'); */
+
   html {
     
     width: 100%;
@@ -114,7 +117,7 @@ const signOut = () => {
     height: 100%;
     position: fixed;
     margin: auto;
-    
+
   }
   h1 {
    
@@ -129,11 +132,6 @@ const signOut = () => {
     width: 100px;
     margin: auto;
   } 
-  router-link{
-    width: 10%;
-    position: fixed;
-    display: block;
-    margin: auto;
-  } 
+
 </style>
 

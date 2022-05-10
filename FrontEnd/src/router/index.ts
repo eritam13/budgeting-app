@@ -9,7 +9,6 @@ import RegisterVue from '@/views/Register.vue';
 import { useAuthStore } from '@/stores/authStore';
 
 const routes: Array<RouteRecordRaw> = [
- 
 
   {
     path: '/recordlist',
