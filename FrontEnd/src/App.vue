@@ -1,4 +1,4 @@
-<!--<template>
+<template>
   <nav class="bg-purple-400">
     <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
       <div class="relative flex items-center justify-between h-16">
@@ -38,38 +38,42 @@
             </div>
           </div>
         </div>
+        <div
+          class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 ml-3 relative"
+        >
+          <button
+            type="button"
+            v-if="isAuthenticated"
+            class="text-white ring-gray-400 px-2 flex text-sm rounded-full focus:outline-none ring-2"
+            @click="signOut"
+          >
+            Logi välja
+          </button>
+        </div>
       </div>
     </div>
   </nav>
   <router-view />
-</template>// the old one-->
-
-
-  <template>
-  
-  <Navbar :logo="logo_src" :alt="app_name"/>
-  
-  <router-view/>
-
 </template>
+<script setup lang="ts">
 
-<script>
-import Navbar from './components/Navbar.vue';
-export default {
-  components: {
-    Navbar,
-    
-  },
-  data() {
-    return {
-      logo_src: '@/assets/Wallet.png',
-      app_name: 'BudgetingApp'
-    }
-  }
-}
+import { storeToRefs } from 'pinia';
+import router from './router';
+import { useAuthStore } from './stores/authStore';
+
+const authStore = useAuthStore();
+const { logout } = authStore;
+const { isAuthenticated } = storeToRefs(authStore);
+
+const signOut = () => {
+  logout();
+  router.push({ name: 'Logi sisse' });
+};
 </script>
 
 <style>
+
+
   @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
   html, body {
     font-family: 'Montserrat', sans-serif;

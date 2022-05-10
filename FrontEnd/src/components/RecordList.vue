@@ -16,7 +16,6 @@
             Empty
         </div>
         <div v-else>
-          
         <DataTable :value="records" :paginator="true"  showGridlines :rows="5" 
         >
           <Column field="activity"  header="Activity" :sortable="true"/>
@@ -30,7 +29,7 @@
           <Column field="currency" header="Currency" :sortable="true"/>
           <Column field="amount" header="Amount" :sortable="true"/>
           <Column field="category" header="Category" :sortable="true" >
-         </Column>
+          </Column>
           <Column>
           <template #body="{ data }">
             <button
@@ -94,7 +93,12 @@ const categories =ref( [
   {name:'Entertainment', code: 'Entertainment'},
   {name:'Other', code: 'Other'}
   ])
-const categoriess = ['FoodDrink','Shopping','Housing','Transportation','Income','Investments','Entertainment','Other']
+
+
+const categoriesss =ref(['FoodDrink','Shopping','Housing','Transportation','Income','Investments','Entertainment','Other']);
+
+const categoriess = ['FoodDrink','Shopping','Housing','Transportation','Income','Investments','Entertainment','Other'];
+
 const clearRecords = ()=>{
   deleteRecords();
 }
@@ -103,6 +107,7 @@ onUpdated(()=>{
   {recordsStore.load()
   loaded+=1;}
 })
+
 onMounted(() => {
   recordsStore.load();
 });

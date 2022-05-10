@@ -3,8 +3,11 @@ import { Record } from '@/modules/record';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import {Ref} from 'vue';
+import { useAuthStore } from './authStore';
 export const useRecordsStore = defineStore('recordsStore', () => {
-  let apiGetRecords = useApi<Record[]>('records');
+  const authStore = useAuthStore();
+
+
   let records = ref<Record[]>([]);
   let selectedRecord:Ref<Record> = ref<Record>({
         id:'',
@@ -19,6 +22,10 @@ export const useRecordsStore = defineStore('recordsStore', () => {
   );
   let allRecords:Record[]=[];
   const loadRecords = async () => {
+    let apiGetRecords = useApi<Record[]>('records',{
+      headers: { Authorization: 'Bearer ' + authStore.token },
+    });
+    console.log(authStore.token);
     await apiGetRecords.request();
     if (apiGetRecords.response.value) {
       apiGetRecords.response.value.forEach(record =>{
@@ -31,14 +38,13 @@ export const useRecordsStore = defineStore('recordsStore', () => {
   };
   const load = async () => {
     records.value = await loadRecords();
-    records.value.forEach(function(value:any) {
-    });
   };
 
   const addRecord = async (record: Record) => {
     const apiAddRecord = useApi<Record>('records', {
       method: 'POST',
       headers: {
+        Authorization: 'Bearer ' + authStore.token,
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
@@ -56,6 +62,7 @@ export const useRecordsStore = defineStore('recordsStore', () => {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
+        Authorization: 'Bearer ' + authStore.token,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(record1),
@@ -73,7 +80,9 @@ export const useRecordsStore = defineStore('recordsStore', () => {
   const deleteRecord = async (record : Record) =>{
     const apiDeleteRecord = useApiRawRequest(`records/${record.id}`,{
       method: 'DELETE',
+      headers: { Authorization: 'Bearer ' + authStore.token },
     });
+
     const res = await apiDeleteRecord();
 
     if (res.status === 204) {
@@ -126,7 +135,9 @@ export const useRecordsStore = defineStore('recordsStore', () => {
       method: 'DELETE',
     });
     const res = await apiDeleteRecords();
-    apiGetRecords = useApi<Record[]>('records');
+    let apiGetRecords = useApi<Record[]>('records',{
+      headers: { Authorization: 'Bearer ' + authStore.token },
+    });
     records.value = await loadRecords();
   };
 

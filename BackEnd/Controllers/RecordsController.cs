@@ -8,8 +8,12 @@ using BackEnd.Model;
 using static BackEnd.Model.Record;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+
 namespace BackEnd.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class RecordsController : ControllerBase
@@ -61,22 +65,25 @@ namespace BackEnd.Controllers
                 {"Entertainment",0},
                 {"Other",0}
             };
-            foreach(var r in _context.RecordsList!)
+            if(_context.RecordsList!=null)
             {
-                if(report.ContainsKey(r.Category.ToString()))
+                foreach(var r in _context.RecordsList!)
                 {
-                    int hours = Convert.ToInt32(r.Time.Split(":")[0]);
-                    int minutes = Convert.ToInt32(r.Time.Split(":")[1]);
-                    DateTime check = new DateTime(r.Date.Value.Year,r.Date.Value.Month,r.Date.Value.Day,hours,minutes,00);
-                    if(check>=from && check<=to)
+                    if(report.ContainsKey(r.Category.ToString()))
                     {
-                        if(r.Currency.ToString() == "USD")
+                        int hours = Convert.ToInt32(r.Time!.Split(":")[0]);
+                        int minutes = Convert.ToInt32(r.Time.Split(":")[1]);
+                        DateTime check = new DateTime(r.Date!.Value.Year,r.Date.Value.Month,r.Date.Value.Day,hours,minutes,00);
+                        if(check>=from && check<=to)
                         {
-                        report[r.Category.ToString()] +=r.Amount;
-                        }
-                        if(r.Currency.ToString()=="EUR")
-                        {
-                            report[r.Category.ToString()]+=r.Amount*1.1M;
+                            if(r.Currency.ToString() == "USD")
+                            {
+                            report[r.Category.ToString()] +=r.Amount;
+                            }
+                            if(r.Currency.ToString()=="EUR")
+                            {
+                                report[r.Category.ToString()]+=r.Amount*1.1M;
+                            }
                         }
                     }
                 }
