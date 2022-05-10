@@ -22,7 +22,6 @@ export const useAuthStore = defineStore('userStore', () => {
 
     if (apiLogin.response.value && apiLogin.response.value.token) {
       token.value = apiLogin.response.value.token;
-
       user.value = loginUser;
 
       return true;
@@ -30,13 +29,33 @@ export const useAuthStore = defineStore('userStore', () => {
 
     return false;
   };
+  const register = async (registerUser:User): Promise<boolean>=>{
+    const apiRegister = useApi<AuthResponse>('users/register', {
+      method: 'POST',
+      headers:{ 
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(registerUser),
+    });
+    await apiRegister.request();
 
+    if(apiRegister.response.value && apiRegister.response.value.token)
+    {
+      token.value = apiRegister.response.value.token;
+      user.value = registerUser;
+      console.log(apiRegister.response.value.token)
+      return true;
+    }
+    return false;
+  };
   const logout = () => {
     user.value = undefined;
     token.value = undefined;
   };
 
   return {
+    register,
     user,
     isAuthenticated,
     token,

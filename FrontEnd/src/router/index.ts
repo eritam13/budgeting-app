@@ -5,6 +5,7 @@ import RecordsVue from '@/views/Records.vue';
 import ReportVue from '@/views/Report.vue';
 import PersonalInfoVue from '@/views/PersonalInfo.vue';
 import LoginVue from '@/views/Login.vue';
+import RegisterVue from '@/views/Register.vue';
 import { useAuthStore } from '@/stores/authStore';
 
 const routes: Array<RouteRecordRaw> = [
@@ -36,10 +37,14 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/login',
-    name: 'Logi sisse',
+    name: 'login',
     component: LoginVue,
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: RegisterVue,
   }
-
 ];
 
 

@@ -10,6 +10,7 @@ namespace BackEnd.Model
 {
     public class PersonalInfo
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("id")]
         public int? Id { get; init; } 
         [Column("name")]

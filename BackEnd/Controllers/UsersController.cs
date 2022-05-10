@@ -1,15 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
 using BackEnd.Model;
-using System.Security.Cryptography;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
-
+using Microsoft.Extensions.Primitives;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Http;
 namespace WorkoutApplication.Controllers
 {
     [Route("api/[controller]")]
@@ -18,13 +17,17 @@ namespace WorkoutApplication.Controllers
     {
         private readonly DataContext _context;
         private IConfiguration _config;
-
+        public class JwtOptions
+        {
+            public string? SecretKey { get; set; }
+            public int ExpiryMinutes { get; set; }
+            public string? Issuer { get; set; }        
+        }
         public UsersController(IConfiguration config, DataContext context)
         {
             _config = config;
             _context = context;
         }
-
         [HttpPost("login")]
         public IActionResult Login([FromBody] User login)
         {
@@ -38,6 +41,17 @@ namespace WorkoutApplication.Controllers
 
             return Ok(new {token = token});
 
+        }
+        [HttpPost("Register")]
+        public IActionResult Register([FromBody] User register)
+        {
+            var dbUser = _context.UserList!.FirstOrDefault(user => user.Username==register.Username);
+            if (dbUser !=null || register.Password =="" || register.Username=="") return BadRequest();
+            register.Password=HashPassword(register.Password);
+            _context.UserList!.Add(register);
+            _context.SaveChanges();
+            var token = GenerateJSONWebToken(register);
+            return Ok(new {token = token});
         }
 
         private string HashPassword(string password)
