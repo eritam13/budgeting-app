@@ -1,5 +1,5 @@
 <template>
-<body style="background-color:powderblue;">
+<body >
   <RecordList title="Record List"/>
 </body>
 </template>

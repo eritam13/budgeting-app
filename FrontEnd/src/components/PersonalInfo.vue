@@ -1,5 +1,5 @@
 <template>
-   <div class="bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+   <div class="bg-gray-50 py-12 px-4 sm:px-6 lg:px-8" style="margin-left: 10%; width: auto; background-color:rgb(230, 230, 245);">
     <div class="text-center bg-gray-50">
         <DataTable :value="personalInfo">
           <Column field="name" header="Name" />

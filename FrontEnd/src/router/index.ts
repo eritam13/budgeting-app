@@ -8,12 +8,7 @@ import LoginVue from '@/views/Login.vue';
 import { useAuthStore } from '@/stores/authStore';
 
 const routes: Array<RouteRecordRaw> = [
-  {
-    path: '/',
-    name: 'Dashboard',
-    component: DashboardVue,
-    meta: { requiresAuth: true },
-  },
+ 
 
   {
     path: '/recordlist',

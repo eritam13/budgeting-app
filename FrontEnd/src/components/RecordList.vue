@@ -1,5 +1,5 @@
 <template>
-   <div class="bg-white py-12 px-4 sm:px-6 lg:px-8">
+   <div class="bg-white py-12 px-4 sm:px-6 lg:px-8" style="margin-left: 10%; width: auto; background-color:rgb(230, 230, 245);">
     <div class="text-center">
 
       <h1 class="font-bold">{{ title }}</h1>

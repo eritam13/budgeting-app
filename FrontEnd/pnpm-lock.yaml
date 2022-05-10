@@ -26,6 +26,7 @@ specifiers:
   vue-demi: ^0.12.4
   vue-excel-export: ^0.1.3
   vue-router: ^4.0.13
+  vue-sidebar-menu: ^5.2.3
   vue-tsc: ^0.29.8
   vue3-date-time-picker: ^2.7.0
   windicss: ^3.4.3
@@ -44,6 +45,7 @@ dependencies:
   vue-demi: 0.12.4_vue@3.2.31
   vue-excel-export: 0.1.3
   vue-router: 4.0.14_vue@3.2.31
+  vue-sidebar-menu: 5.2.3
   vue3-date-time-picker: 2.8.0_vue@3.2.31
   write-excel-file: 1.3.16
 
@@ -3136,6 +3138,10 @@ packages:
     dependencies:
       '@vue/devtools-api': 6.1.3
       vue: 3.2.31
+    dev: false
+
+  /vue-sidebar-menu/5.2.3:
+    resolution: {integrity: sha512-dysLoAzqFlj95DJQfmnpkK5WchQA0WacQsFR0VeUtsp8W9GMLZjyX3TdWsHuVIzOiPXG18s4JK0jR90XM6A7cQ==}
     dev: false
 
   /vue-tsc/0.29.8_typescript@4.6.2:
