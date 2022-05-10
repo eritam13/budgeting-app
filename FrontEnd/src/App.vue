@@ -67,7 +67,7 @@ const { isAuthenticated } = storeToRefs(authStore);
 
 const signOut = () => {
   logout();
-  router.push({ name: 'Logi sisse' });
+  router.push({ name: 'login' });
 };
 </script>
 

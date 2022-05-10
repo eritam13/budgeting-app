@@ -31,15 +31,17 @@
             >
               <span class="absolute left-0 inset-y-0 flex items-center pl-3">
               </span>
-              Login
+              Register
             </button>
           </div>
         </div>
       </form>
       <p v-if="showError" class="text-red-400">
-        Wrong Username or Password
+        Username already exists
       </p>
-      <p><button @click="register">register here</button></p>
+      <button @click="returnToLogin">
+        return to login
+      </button>
     </div>
   </div>
 </template>
@@ -56,11 +58,13 @@ const user: User = { username: '', password: '' };
 let showError = ref(false);
 
 const submit = async () => {
-  showError.value = !(await auth.login(user));
-
-  router.push({ name: 'RecordList' });
+  showError.value = !(await auth.register(user));
+  if(showError.value==false)
+  {
+    router.push({ name: 'RecordList' });
+  }
 };
-const register = async() =>{
-  router.push({ name: 'register' });
+const returnToLogin = async()=>{
+    router.push({ name: 'RecordList' });
 }
 </script>
