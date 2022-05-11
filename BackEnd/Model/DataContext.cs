@@ -15,20 +15,9 @@ namespace BackEnd.Model
         }
         public DbSet<User>? UserList { get; set; }
         public DbSet<Record>? RecordsList { get; set; }
-        public DbSet<PersonalInfo>? PersonalInfo { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<PersonalInfo>().HasData(
-                new PersonalInfo
-                {
-                    Id=1,
-                    Name = "Patrick",
-                    Surname = "Bateman",
-                    Birthday = DateTime.UtcNow
-                });
-
             modelBuilder.Entity<Record>().HasData(
             new Record{
                 Id="safdasfd",
