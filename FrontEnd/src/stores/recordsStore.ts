@@ -130,8 +130,8 @@ export const useRecordsStore = defineStore('recordsStore', () => {
       selectedRecord.value= req;
   };
 
-  const deleteRecords = async () =>{
-    const apiDeleteRecords = useApiRawRequest('records',{
+  const deleteRecords = async (username:string|undefined) =>{
+    const apiDeleteRecords = useApiRawRequest(`records?username=${username}`,{
       method: 'DELETE',
       headers: { Authorization: 'Bearer ' + authStore.token }
     });

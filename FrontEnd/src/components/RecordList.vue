@@ -86,9 +86,11 @@ import { Record } from '@/modules/record'
 import InputText from 'primevue/inputtext';
 import DataTable from 'primevue/datatable';
 import Column from "primevue/column";
+import { useAuthStore } from '@/stores/authStore';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { useRouter } from 'vue-router';
 import EditRecordVue from '@/components/EditRecord.vue';
+const {user} = storeToRefs(useAuthStore());
 defineProps<{ title: string }>();
 
 
@@ -122,7 +124,7 @@ const categoriesss =ref(['FoodDrinks','Shopping','Housing','Transportation','Inc
 const categoriess = ['FoodDrinks','Shopping','Housing','Transportation','Income','Investments','Entertainment','Other'];
 
 const clearRecords = ()=>{
-  deleteRecords();
+  deleteRecords(user.value?.username);
 }
 
 

@@ -101,12 +101,20 @@ namespace BackEnd.Controllers
             }
         }
         [HttpDelete]
-        public IActionResult Delete()
+        public IActionResult DeleteEverything(string username)
         {
-            _context.RecordsList?.RemoveRange(_context.RecordsList!);
+            var recordsToDelete = _context.RecordsList?.Where(r=>r.User==username);
+            if (recordsToDelete != null)
+            {
+                foreach(var r in recordsToDelete)
+                {
+                    _context.Remove(r);
+                }
+            }
             _context.SaveChanges();
             return NoContent();
         }
+
         [HttpDelete("{id}")]
         public IActionResult Delete(string? id) 
         {
