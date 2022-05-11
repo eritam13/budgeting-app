@@ -2096,28 +2096,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\LENA\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
-    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
+    "C:\\Users\\Professional\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\C_PROJECTS\\2022-itb1704-isa4\\BackEnd\\BackEnd.csproj",
+      "projectUniqueName": "C:\\Users\\Professional\\Desktop\\projektISA4\\2022-itb1704-isa4\\BackEnd\\BackEnd.csproj",
       "projectName": "BackEnd",
-      "projectPath": "C:\\C_PROJECTS\\2022-itb1704-isa4\\BackEnd\\BackEnd.csproj",
-      "packagesPath": "C:\\Users\\LENA\\.nuget\\packages\\",
-      "outputPath": "C:\\C_PROJECTS\\2022-itb1704-isa4\\BackEnd\\obj\\",
+      "projectPath": "C:\\Users\\Professional\\Desktop\\projektISA4\\2022-itb1704-isa4\\BackEnd\\BackEnd.csproj",
+      "packagesPath": "C:\\Users\\Professional\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Professional\\Desktop\\projektISA4\\2022-itb1704-isa4\\BackEnd\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\LENA\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Professional\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
@@ -2185,7 +2182,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

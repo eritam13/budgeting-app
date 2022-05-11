@@ -3,13 +3,15 @@ import { Record } from '@/modules/record';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { Report } from '@/modules/report';
+import { useAuthStore } from './authStore';
 let s =ref(<Date>new Date(1000,0,1,0,0));
 let e = ref(<Date>new Date(9998,11,31,23,59));
 
 export const useReportStore = defineStore(`reportStore`, () => {
+  const authStore = useAuthStore();
   let apiGetReport=useApi<Record[]>('');
   let report = ref<Report[]>([]);
-  const loadRep = async ()=>{
+  const loadRep = async (username:string|undefined)=>{
     let dateS  = s.value.getFullYear().toString();
     let dateE  = e.value.getFullYear().toString();
     if(s.value.getMonth().toString().length<2 && s.value.getMonth()!=9)
@@ -89,12 +91,14 @@ export const useReportStore = defineStore(`reportStore`, () => {
       dateE = dateE + `:${e.value.getMinutes()}Z`
     }
     apiGetReport = useApi<Record[]>(
-      `records/report?from=${dateS}&to=${dateE}`
+      `records/report?from=${dateS}&to=${dateE}&username=${username}`,{
+        headers: { Authorization: 'Bearer ' + authStore.token }
+      }
     );
   };
 
   const loadR = async () => {
-    loadRep();
+    loadRep(authStore.user?.username);
     await apiGetReport.request();
     if (apiGetReport.response.value) {
       return apiGetReport.response.value;

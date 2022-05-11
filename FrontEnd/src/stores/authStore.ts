@@ -44,7 +44,6 @@ export const useAuthStore = defineStore('userStore', () => {
     {
       token.value = apiRegister.response.value.token;
       user.value = registerUser;
-      console.log(apiRegister.response.value.token)
       return true;
     }
     return false;
