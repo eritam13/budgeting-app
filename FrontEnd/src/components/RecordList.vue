@@ -117,9 +117,9 @@ const categories =ref( [
 const filters2=ref({'global': {value: null, matchMode: FilterMatchMode.CONTAINS},
               'activity': {value: null, matchMode: FilterMatchMode.CONTAINS},
               'category':{value: null, matchMode: FilterMatchMode.EQUALS}});
-const categoriesss =ref(['FoodDrink','Shopping','Housing','Transportation','Income','Investments','Entertainment','Other']);
+const categoriesss =ref(['FoodDrinks','Shopping','Housing','Transportation','Income','Investments','Entertainment','Other']);
 
-const categoriess = ['FoodDrink','Shopping','Housing','Transportation','Income','Investments','Entertainment','Other'];
+const categoriess = ['FoodDrinks','Shopping','Housing','Transportation','Income','Investments','Entertainment','Other'];
 
 const clearRecords = ()=>{
   deleteRecords();
