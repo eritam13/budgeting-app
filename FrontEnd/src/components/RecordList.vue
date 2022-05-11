@@ -16,10 +16,14 @@
             Empty
         </div>
         <div v-else>
-        <DataTable :value="records" :paginator="true"  showGridlines :rows="5" 
-        >
-          <Column field="activity"  header="Activity" :sortable="true"/>
-          <Column field="description" header="Description" :sortable="true"/>
+        <DataTable :value="records" :paginator="true"  showGridlines :rows="5"   v-model:filters="filters2" dataKey="id"
+        filterDisplay="row"  responsiveLayout="scroll"
+                :globalFilterFields="['activity','category']">
+        
+          <Column field="activity"  header="Activity" :sortable="true" style="min-width:12rem">
+          </Column>
+          <Column field="description" header="Description" :sortable="true">
+          </Column>
           <Column field="date" header="Date" :sortable="true">
           <template #body="{ data }">
             {{ data.date.toString().split("00:00:00")[0]}}
@@ -28,7 +32,22 @@
           <Column field="time" header="Time" />
           <Column field="currency" header="Currency" :sortable="true"/>
           <Column field="amount" header="Amount" :sortable="true"/>
-          <Column field="category" header="Category" :sortable="true" >
+          <Column field="category" header="Category" :sortable="true" :showFilterMenu="false" style="min-width:12rem">
+          <template #body="{data}">
+              <span :class="'customer-badge category-' + data.category">{{data.category}}</span>
+          </template>
+          <template #filter="{filterModel,filterCallback}">
+              <Dropdown v-model="filterModel.value" @change="filterCallback()" :options="categoriesss" placeholder="Any"
+               class="p-column-filter" :showClear="true"  >
+                  <template #value="slotProps">
+                      <span :class="'customer-badge category-' + slotProps.value" v-if="slotProps.value">{{slotProps.value}}</span>
+                      <span v-else>{{slotProps.placeholder}}</span>
+                  </template>
+                  <template #option="slotProps">
+                      <span :class="'customer-badge category-' + slotProps.option">{{slotProps.option}}</span>
+                  </template>
+              </Dropdown>
+          </template>
           </Column>
           <Column>
           <template #body="{ data }">
@@ -58,15 +77,16 @@
 </template>
 
 <script setup lang="ts">
+
 import {useRecordsStore} from '@/stores/recordsStore';
 import { storeToRefs } from 'pinia';
 import { onBeforeMount, onMounted, onUpdated, ref } from 'vue';
 import { Record } from '@/modules/record'
 
-
-import DataTable from "primevue/datatable";
+import InputText from 'primevue/inputtext';
+import DataTable from 'primevue/datatable';
 import Column from "primevue/column";
-import { FilterMatchMode, FilterOperator } from "primevue/api";
+import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { useRouter } from 'vue-router';
 import EditRecordVue from '@/components/EditRecord.vue';
 defineProps<{ title: string }>();
@@ -76,7 +96,7 @@ const recordsStore = useRecordsStore();
 const { records } = storeToRefs(recordsStore);
 const {deleteRecords,loadInfoById } = useRecordsStore();
 const router = useRouter();
-let loaded=0;
+
 
 
 const filters = ref({
@@ -94,7 +114,9 @@ const categories =ref( [
   {name:'Other', code: 'Other'}
   ])
 
-
+const filters2=ref({'global': {value: null, matchMode: FilterMatchMode.CONTAINS},
+              'activity': {value: null, matchMode: FilterMatchMode.CONTAINS},
+              'category':{value: null, matchMode: FilterMatchMode.EQUALS}});
 const categoriesss =ref(['FoodDrink','Shopping','Housing','Transportation','Income','Investments','Entertainment','Other']);
 
 const categoriess = ['FoodDrink','Shopping','Housing','Transportation','Income','Investments','Entertainment','Other'];
@@ -102,14 +124,11 @@ const categoriess = ['FoodDrink','Shopping','Housing','Transportation','Income',
 const clearRecords = ()=>{
   deleteRecords();
 }
-onUpdated(()=>{
-  if(loaded<1)
-  {recordsStore.load()
-  loaded+=1;}
-})
+
 
 onMounted(() => {
   recordsStore.load();
+
 });
 
 const edit=(record: Record) => {
