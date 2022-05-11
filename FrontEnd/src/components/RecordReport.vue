@@ -241,7 +241,7 @@ onUpdated(() => {
   padding: 10px;
   width: auto;
   border-radius: 5px;
-  position: fixed;
+  text-align: center;
   bottom: 5%;
   cursor: pointer;
   font-size: 16px;

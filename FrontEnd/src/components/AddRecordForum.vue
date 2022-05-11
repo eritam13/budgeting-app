@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
+    class="scrollable min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8" style="overflow: visible"
   >
     <div class="max-w-md w-full space-y-8">
       <div class="mt-8 space-y-6">
