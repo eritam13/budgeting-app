@@ -8,14 +8,15 @@
   
     <div class="max-w-md w-full space-y-8">
       <label for="from">FROM---</label>
-      <input type="date" id="fromDate" name="date" v-model="fromDate" />
+      <input type="date" id="fromDate" name="date" v-model="fromDate"/>
       <input type="time" id="appt" name="appt" v-model="fromTime" />
       <div></div>
       <label for="date">TO---</label>
       <input type="date" id="toDate" name="date" v-model="toDate" />
       <input type="time" id="appt" name="appt" v-model="toTime" />
       <div></div>
-
+      
+      <div></div>
       <div class="mt-8 space-y-6">
         <div class="rounded-md shadow-sm -space-y-px">
           <button
@@ -33,6 +34,7 @@
         <div v-if="0>totalSpent">
           <h2 class="b" >Total: {{ totalSpent }}$</h2>
         </div>
+        
         <div v-if="reportCheck == false">
           <li v-for="r in report" :key="r.category">
             <span class="c" v-if="r.category == 'FoodDrinks'">
@@ -95,7 +97,11 @@ let BlobURL: Ref<string> = ref('');
 const categories = ['FoodDrinks','Shopping','Housing','Transportation','Income','Investments','Entertainment','Other'];
 
 const getReport = async () => {
-  const date1: Date = new Date(fromDate.value);
+  let date1: Date = new Date(fromDate.value);
+  if(fromDate==null||fromDate==undefined||fromDate.value.toString()=="Invalid Date")
+  {
+    date1=(new Date(1000,0,1,1,1));
+  }
   let f = new Date(
     date1.getFullYear(),
     date1.getMonth(),
@@ -103,7 +109,11 @@ const getReport = async () => {
     parseInt(fromTime.value.split(':')[0]),
     parseInt(fromTime.value.split(':')[1]),
   );
-  const date2: Date = new Date(toDate.value);
+  let date2: Date = new Date(toDate.value);
+  if(toDate==null||toDate==undefined||toDate.value.toString()=="Invalid Date")
+  {
+    date2=(new Date(3000,0,1,1,1));
+  }
   let t = new Date(
     date2.getFullYear(),
     date2.getMonth(),
@@ -207,7 +217,18 @@ const getPieChartData = async () => {
 watch(finalArr, ()=>{
   getReport();
 });
-
+// watch(toDate, ()=>{
+//   if(toDate==null||toDate==undefined)
+//   {
+//     toDate=ref(<Date>new Date(1000,0,1,0,0));
+//   }
+// });
+// watch(fromDate, ()=>{
+//   if(fromDate==null||fromDate==undefined)
+//   {
+//     fromDate=ref(<Date>new Date(3000,0,1,0,0));
+//   }
+// });
 onMounted(() => {
   recordsStore.load();
   reportStore.loadReport();
@@ -216,6 +237,14 @@ onMounted(() => {
 onUpdated(() => {
   var d = <HTMLInputElement>document.getElementById('fromDate');
   var c = <HTMLInputElement>document.getElementById('toDate');
+  if(toDate==null||toDate==undefined)
+  {
+    toDate=ref(new Date(1000,0,1,0,0));
+  }
+   if(fromDate==null||fromDate==undefined)
+  {
+    fromDate=ref(new Date(3000,0,1,0,0));
+  }
   if(fromDate.value.toString().length>11)
   {
     if (d.valueAsDate == null && fromDate.value.getFullYear() > 1900 ) {
@@ -234,7 +263,12 @@ onUpdated(() => {
 
 </script>
 <style>
+html, body {
+  
+  overflow: scroll;
+}
 .btn {
+  
   background-color: rgb(7, 106, 204);
   border: none;
   color: rgb(255, 255, 255);

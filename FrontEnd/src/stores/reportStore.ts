@@ -51,8 +51,6 @@ export const useReportStore = defineStore(`reportStore`, () => {
       dateE = dateE + `-${e.value.getDate()}`
     }
 
-
-
     if(s.value.getHours().toString().length<2)
     {
       dateS = dateS + `T0${s.value.getHours()}`
@@ -90,6 +88,16 @@ export const useReportStore = defineStore(`reportStore`, () => {
     {
       dateE = dateE + `:${e.value.getMinutes()}Z`
     }
+
+    if(dateS==null||dateS==undefined||dateS=="NaN")
+    {
+      dateS=(new Date(1000,1,1,1,1).toDateString());
+    }
+    if(dateE==null||dateE==undefined||dateE=="NaN")
+    {
+      dateE=(new Date(3000,1,1,1,1).toDateString());
+    }
+
     apiGetReport = useApi<Record[]>(
       `records/report?from=${dateS}&to=${dateE}&username=${username}`,{
         headers: { Authorization: 'Bearer ' + authStore.token }

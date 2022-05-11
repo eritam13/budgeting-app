@@ -38,9 +38,9 @@ namespace BackEnd.Controllers
         }   
         [Route("report")]
         [HttpGet()]
-        public IActionResult GetReport([FromQuery]DateTime from, [FromQuery]DateTime to,[FromQuery] string username)
+        public IActionResult GetReport([FromQuery]DateTime? from, [FromQuery]DateTime? to,[FromQuery] string username)
         {
-            
+           
             List<Report> totalReport = new List<Report>();
             Dictionary<string,decimal> report = new Dictionary<string,decimal>()
             {

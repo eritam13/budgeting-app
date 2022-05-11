@@ -9,7 +9,8 @@ import RegisterVue from '@/views/Register.vue';
 import { useAuthStore } from '@/stores/authStore';
 
 const routes: Array<RouteRecordRaw> = [
-
+ 
+  { path: '/', redirect: '/login' },
   {
     path: '/recordlist',
     name: 'RecordList',
@@ -51,6 +52,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
 
 router.beforeEach((to, from, next) => {
   const useAuth = useAuthStore();
