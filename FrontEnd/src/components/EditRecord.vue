@@ -51,7 +51,7 @@
             <dd></dd>
             <select category="category" id="category" v-model="record.category">
               <option value="FoodDrinks" label="&#127790 Food & Drinks"></option>
-              <option value="Shopping" label="&#128722 Shooping"></option>
+              <option value="Shopping" label="&#128722 Shopping"></option>
               <option value="Housing" label="&#128146 Housing"></option>
               <option value="Transportation" label="&#128652 Transportation"></option>
               <option value="Income" label="&#128176 Income"></option>
