@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "YJ7jwPmhdkXiuiCvOfkw+ZYjYO6qiXn7qXgjIEImNcrDvsv5I3Vqx2S4qXM+laxojivVDb/BZ4Gq2kK5yggbTw==",
+  "dgSpecHash": "nY06iYReRTwo5FFa6/yKseNYPP68533No9MkgebgucGX9k8oCihJQWKdd9EieOFOk4iFgsF81Kd1JtlYAGmXXA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Professional\\Desktop\\2022-itb1704-isa4\\BackEnd\\BackEnd.csproj",
+  "projectFilePath": "C:\\Users\\Professional\\Desktop\\projektISA4\\2022-itb1704-isa4\\BackEnd\\BackEnd.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Professional\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
     "C:\\Users\\Professional\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",

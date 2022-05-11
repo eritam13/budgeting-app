@@ -97,7 +97,9 @@ import { Record } from '@/modules/record';
 import { useRecordsStore } from '@/stores/recordsStore';
 import { onMounted, onUpdated, ref, Ref } from 'vue';
 import { useRouter } from 'vue-router';
-
+import {useAuthStore} from '@/stores/authStore'
+import { storeToRefs } from 'pinia';
+const {user} = storeToRefs(useAuthStore());
 const router = useRouter();
 const {updateRecord } = useRecordsStore();
 const {selectedRecord} = useRecordsStore();
@@ -112,6 +114,7 @@ const record: Ref<Record> = ref({
     currency: selectedRecord.currency,
     amount: selectedRecord.amount,
     category: selectedRecord.category,
+    user:user.value?.username
 }); 
 
 
