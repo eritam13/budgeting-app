@@ -24,33 +24,21 @@ namespace BackEnd.Controllers
         {
             _context = context;
         }
-
-        [HttpGet]
-        public IActionResult GetRecords([FromQuery] CurrencySelection? currency)
+        [HttpGet()]
+        public IActionResult GetRecords([FromQuery] string username)
         {
 
             var records = _context.RecordsList!.AsQueryable();
-            if (currency.HasValue)
-            {
-                records = records.Where(x => x.Currency == currency.Value);
-            }
-
-            return Ok(records);
-        }   
-
-        [HttpGet("{id}")]
-        public IActionResult GetDetails(string? id)
-        {
-            var record = _context.RecordsList?.FirstOrDefault(e => e.Id == id);
-            if (record == null)
+            records = records.Where(r => r.User == username);
+            if(records==null)
             {
                 return NotFound();
             }
-            return Ok(record);
-        }
+            return Ok(records);
+        }   
         [Route("report")]
         [HttpGet()]
-        public IActionResult GetReport([FromQuery]DateTime from, [FromQuery]DateTime to)
+        public IActionResult GetReport([FromQuery]DateTime from, [FromQuery]DateTime to,[FromQuery] string username)
         {
             
             List<Report> totalReport = new List<Report>();
@@ -67,7 +55,7 @@ namespace BackEnd.Controllers
             };
             if(_context.RecordsList!=null)
             {
-                foreach(var r in _context.RecordsList!)
+                foreach(var r in _context.RecordsList!.Where(r=>r.User== username))
                 {
                     if(report.ContainsKey(r.Category.ToString()))
                     {
@@ -105,7 +93,7 @@ namespace BackEnd.Controllers
                 _context.Add(record);
                  _context.SaveChanges();
                  
-                 return CreatedAtAction(nameof(GetDetails), new { Id = record.Id }, record);
+                 return CreatedAtAction(nameof(GetRecords), new { Id = record.Id }, record);
             }
             else
             {

@@ -29,6 +29,8 @@ namespace BackEnd.Model
             USD =1,
             EUR =2
         }
+        [Column("Username"),Required]
+        public string? User {get;set;}
         [Column("category"),Required]
         public CategorySelection Category {get; init; }
         [JsonConverter(typeof(JsonStringEnumConverter))]

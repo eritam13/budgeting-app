@@ -93,6 +93,8 @@ import { Record } from '@/modules/record';
 import { useRecordsStore } from '@/stores/recordsStore';
 import { ref, Ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { storeToRefs } from 'pinia';
+import {useAuthStore} from '@/stores/authStore'
 defineProps<{ title: string }>();
 const record: Ref<Record> = ref({
   activity: '',
@@ -101,8 +103,10 @@ const record: Ref<Record> = ref({
   time: ``,
   currency: '',
   amount: 0,
-  category: ''
+  category: '', 
+  user: ''
 });
+const {user} = storeToRefs(useAuthStore());
 const { addRecord } = useRecordsStore();
 const recordsStore = useRecordsStore();
 const router = useRouter();
@@ -121,6 +125,7 @@ const submitForm = () => {
     record.value.date = new Date(
       Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
     );
+    record.value.user =user.value?.username;
     addRecord({ ...record.value });
     record.value.activity = '';
     record.value.description = '';

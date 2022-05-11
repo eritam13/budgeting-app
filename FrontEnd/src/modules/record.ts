@@ -7,6 +7,7 @@ export interface Record {
     currency: string;
     amount: number;
     category: string;
+    user: string | undefined;
   }
   
   export interface State {

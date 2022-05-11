@@ -7,7 +7,6 @@ import { useAuthStore } from './authStore';
 export const useRecordsStore = defineStore('recordsStore', () => {
   const authStore = useAuthStore();
 
-
   let records = ref<Record[]>([]);
   let selectedRecord:Ref<Record> = ref<Record>({
         id:'',
@@ -17,15 +16,15 @@ export const useRecordsStore = defineStore('recordsStore', () => {
         time: `${new Date().getHours()}:${new Date().getMinutes()}`,
         currency: '',
         amount: 0,
-        category: ''
+        category: '',
+        user: ''
   }
   );
   let allRecords:Record[]=[];
-  const loadRecords = async () => {
-    let apiGetRecords = useApi<Record[]>('records',{
+  const loadRecords = async (username:string|undefined) => {
+    let apiGetRecords = useApi<Record[]>(`records?username=${username}`,{
       headers: { Authorization: 'Bearer ' + authStore.token },
     });
-    console.log(authStore.token);
     await apiGetRecords.request();
     if (apiGetRecords.response.value) {
       apiGetRecords.response.value.forEach(record =>{
@@ -37,7 +36,7 @@ export const useRecordsStore = defineStore('recordsStore', () => {
     return [];
   };
   const load = async () => {
-    records.value = await loadRecords();
+    records.value = await loadRecords(authStore.user?.username);
   };
 
   const addRecord = async (record: Record) => {
@@ -113,6 +112,7 @@ export const useRecordsStore = defineStore('recordsStore', () => {
         currency: '',
         amount: 0,
         category: '',
+        user:''
       };
       records.value!.forEach(function(r){
         if(r.id==id)
@@ -138,7 +138,7 @@ export const useRecordsStore = defineStore('recordsStore', () => {
     let apiGetRecords = useApi<Record[]>('records',{
       headers: { Authorization: 'Bearer ' + authStore.token },
     });
-    records.value = await loadRecords();
+    records.value = await loadRecords(authStore.user?.username);
   };
 
 
@@ -147,7 +147,7 @@ export const useRecordsStore = defineStore('recordsStore', () => {
      const minutes1 = from.getMinutes();
      const hours2 = to.getHours();
      const minutes2 = to.getMinutes();
-     records.value= await loadRecords();
+     records.value= await loadRecords(authStore.user?.username);
      let total:number=0;
      if(records.value)
      {

@@ -29,7 +29,17 @@ namespace BackEnd.Model
                     Birthday = DateTime.UtcNow
                 });
 
-            
+            modelBuilder.Entity<Record>().HasData(
+            new Record{
+                Id="safdasfd",
+                Activity="asdf",
+                Currency=CurrencySelection.EUR,
+                User="t",
+                Category=CategorySelection.Entertainment,
+                Amount=20M,
+                Time="20:20",
+                Date=DateTime.UtcNow
+            });
             modelBuilder.Entity<User>().HasData(
             new User
             {
