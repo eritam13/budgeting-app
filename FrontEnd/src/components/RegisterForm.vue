@@ -3,6 +3,9 @@
     class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
   >
     <div class="max-w-md w-full space-y-8">
+      <div style="font-style: italic; font-size:25px" class="text-gray-600">
+        Both fields are required!
+      </div>
       <form @submit.prevent="submit">
         <div class="rounded-md shadow-sm mt-8 space-y-6">
           <div>

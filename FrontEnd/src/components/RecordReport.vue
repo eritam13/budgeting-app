@@ -91,7 +91,6 @@ let finalArr: Ref<(string | number | String)[][]> = ref([]);
 let reportCheck: Ref<boolean> = ref(true);
 let totalSpent: Ref<number> = ref(0);
 let reportSheet: Ref<Record[]> = ref([]);
-let recordData: Ref<Record[]> = ref([])
 let csvArray: (string | number | String)[][] = [];
 let BlobURL: Ref<string> = ref('');
 const categories = ['FoodDrinks','Shopping','Housing','Transportation','Income','Investments','Entertainment','Other'];
@@ -217,18 +216,6 @@ const getPieChartData = async () => {
 watch(finalArr, ()=>{
   getReport();
 });
-// watch(toDate, ()=>{
-//   if(toDate==null||toDate==undefined)
-//   {
-//     toDate=ref(<Date>new Date(1000,0,1,0,0));
-//   }
-// });
-// watch(fromDate, ()=>{
-//   if(fromDate==null||fromDate==undefined)
-//   {
-//     fromDate=ref(<Date>new Date(3000,0,1,0,0));
-//   }
-// });
 onMounted(() => {
   recordsStore.load();
   reportStore.loadReport();
