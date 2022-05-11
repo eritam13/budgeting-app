@@ -9,6 +9,7 @@ specifiers:
   '@vue/eslint-config-typescript': ^10.0.0
   axios: ^0.26.1
   chart.js: ^3.7.1
+  cors: ^2.8.5
   eslint: ^8.9.0
   eslint-config-prettier: ^8.3.0
   eslint-plugin-vue: ^8.4.1
@@ -35,6 +36,7 @@ specifiers:
 dependencies:
   axios: 0.26.1
   chart.js: 3.7.1
+  cors: 2.8.5
   pinia: 2.0.12_typescript@4.6.2+vue@3.2.31
   primeicons: 5.0.0
   primevue: 3.12.1_primeicons@5.0.0+vue@3.2.31
@@ -1030,6 +1032,14 @@ packages:
 
   /core-util-is/1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
+    dev: false
+
+  /cors/2.8.5:
+    resolution: {integrity: sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==}
+    engines: {node: '>= 0.10'}
+    dependencies:
+      object-assign: 4.1.1
+      vary: 1.1.2
     dev: false
 
   /crc-32/1.2.2:
@@ -2288,7 +2298,6 @@ packages:
   /object-assign/4.1.1:
     resolution: {integrity: sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=}
     engines: {node: '>=0.10.0'}
-    dev: true
 
   /on-headers/1.0.2:
     resolution: {integrity: sha512-pZAE+FJLoyITytdqK0U5s+FIpjN0JP3OzFi/u8Rx+EV5/W+JTWGXG8xFzevE7AjBfDqHv/8vL8qQsIhHnqRkrA==}
